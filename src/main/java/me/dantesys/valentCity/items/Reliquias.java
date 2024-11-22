@@ -15,14 +15,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.tag.DamageTypeTags;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
-import static org.bukkit.attribute.Attribute.*;
 
 public class Reliquias {
+    public static ItemStack guerreiro;
     public static ItemStack espadamd1;
     public static ItemStack espadamd2;
     public static ItemStack totem;
@@ -61,7 +62,7 @@ public class Reliquias {
     public static ItemStack hulk;
     public static ItemStack fenix1;
     public static ItemStack fenix2;
-    //ninja,hulk,copia (1 - players 2 - mobs), dragão, fenix 1, 2
+    //copia (1 - players 2 - mobs), dragão
     public static void init() {
         createEnxada();
         createEspadamd1();
@@ -101,6 +102,28 @@ public class Reliquias {
         createHulk();
         createFenix1();
         createFenix2();
+        createGuerreiro();
+    }
+    private static void createGuerreiro(){
+        ItemStack item = new ItemStack(Material.NETHERITE_SWORD,1);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(Component.text("§6Relíquia do Guerreiro"));
+        List<Component> loreitem = new ArrayList<>();
+        loreitem.add(Component.text("§7Passiva: Resistencia"));
+        loreitem.add(Component.text("§7Ativa: Força"));
+        loreitem.add(Component.text("§7Special: Slash"));
+        meta.lore(loreitem);
+        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
+        meta.addEnchant(Enchantment.FIRE_ASPECT,2,true);
+        meta.addEnchant(Enchantment.LOOTING,3,true);
+        meta.addEnchant(Enchantment.SHARPNESS,5,true);
+        meta.addEnchant(Enchantment.SMITE,5,true);
+        meta.addEnchant(Enchantment.SWEEPING_EDGE,5,true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.setRarity(ItemRarity.EPIC);
+        meta.setUnbreakable(true);
+        meta.setCustomModelData(1);
+        guerreiro = item;
     }
     private static void createEnxada() {
         ItemStack item = new ItemStack(Material.NETHERITE_HOE, 1);
@@ -113,7 +136,7 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
+        meta.setDamageResistant(DamageTypeTags.IS_FIRE);
         meta.addEnchant(Enchantment.SHARPNESS,15,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
@@ -883,6 +906,7 @@ public class Reliquias {
         meta.setAuthor("O Explorador");
         meta.displayName(Component.text("§6Manual das Reliquias"));
         List<Component> pages = new ArrayList<>();
+        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro"));
         pages.add(Component.text("§r§0Reliquias:\n(1) - Ceifador\n(2) - Guerreiro\n(3) - Infinidade\n(4) - Espião\n(5) - Tridente\n(6) - Vento\n(7) - Arco\n(8) - Fazendeiro\n(9) - Crossbow\n(10) - Mineiro\n(11) - Domador\n(12) - Mago"));
         pages.add(Component.text("§r§0(13) - Pisante\n(14) - Escudo\n(15) - Marreta\n(16) - Capacete\n(17) - Pescador\n(18) - Peitoral\n(19) - Calça\n(20) - Barbaro\n(21) - Escavação\n(22) - Ladrão\n(23) - Hulk\n(24) - Fenix"));
         pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Efeitos:\nNa mão: Visão Noturna e aura sombria\nNo ataque: Regeneração, no alvo Escuridão\nHabilidade: Quando mata um mob do tipo Monster dropa uma maçã que aumenta a vida"));
