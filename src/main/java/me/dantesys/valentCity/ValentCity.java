@@ -1,12 +1,16 @@
 package me.dantesys.valentCity;
 
-import me.dantesys.valentCity.commands.Comandos;
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import me.dantesys.valentCity.commands.GiveReliquia;
 import me.dantesys.valentCity.events.*;
 import me.dantesys.valentCity.items.Reliquias;
 import org.bukkit.*;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.*;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
@@ -17,9 +21,15 @@ public final class ValentCity extends JavaPlugin{
     @Override
     public void onEnable() {
         Reliquias.init();
-        Objects.requireNonNull(getCommand("reliquia")).setExecutor(new Comandos());
-        Objects.requireNonNull(getCommand("livro")).setExecutor(new Comandos());
-        Objects.requireNonNull(getCommand("rlist")).setExecutor(new Comandos());
+        LifecycleEventManager<Plugin> manager = this.getLifecycleManager();
+        manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            final Commands commands = event.registrar();
+            commands.register(Commands.literal("reliquia")
+                    .executes(cxt -> {
+                        ctx.getSource().getSender().sendPlainMessage("Reliquia concedida")
+                    }));
+        });
+        Objects.requireNonNull(getCommand("reliquia")).setExecutor(new GiveReliquia());
         NamespacedKey key_espa1 = new NamespacedKey(this, "ESPA1");
         ItemStack espa1 = new ItemStack(Reliquias.espadamd1);
         NamespacedKey key_espa2 = new NamespacedKey(this, "ESPA2");
@@ -160,6 +170,7 @@ public final class ValentCity extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new HulkEvent(), this);
         getServer().getPluginManager().registerEvents(new FenixEvent(), this);
         config.addDefault("dev", "dantesys");
+        config.addDefault("reliquia.guerreiro", "");
         config.options().copyDefaults(true);
         saveConfig();
         getServer().getConsoleSender().sendMessage("§2[Valent City]: Plugin Ativado!");

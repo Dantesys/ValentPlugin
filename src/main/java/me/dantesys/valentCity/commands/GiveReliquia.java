@@ -1,14 +1,18 @@
 package me.dantesys.valentCity.commands;
 
+import me.dantesys.valentCity.ValentCity;
 import me.dantesys.valentCity.items.Reliquias;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-public class Comandos implements CommandExecutor {
+public class GiveReliquia implements CommandExecutor {
+    FileConfiguration config = ValentCity.getPlugin(ValentCity.class).getConfig();
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, String label, String[] args) {
         if (label.equalsIgnoreCase("reliquia")){
@@ -44,6 +48,10 @@ public class Comandos implements CommandExecutor {
                         target.getInventory().addItem(Reliquias.pescador);
                         target.getInventory().addItem(Reliquias.hulk);
                         target.getInventory().addItem(Reliquias.fenix1);
+                    }else if(args[1].equalsIgnoreCase("guerreiro")){
+                        target.getInventory().addItem(Reliquias.guerreiro);
+                        String jg = PlainTextComponentSerializer.plainText().serialize(target.name());
+                        config.set("guerreiro",jg);
                     }else if(args[1].equalsIgnoreCase("espada")){
                         target.getInventory().addItem(Reliquias.espadamd1);
                     }else if(args[1].equalsIgnoreCase("spy")){
