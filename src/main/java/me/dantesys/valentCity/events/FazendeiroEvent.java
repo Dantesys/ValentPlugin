@@ -1,11 +1,9 @@
 package me.dantesys.valentCity.events;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import me.dantesys.valentCity.MobsList;
 import me.dantesys.valentCity.Temporizador;
 import me.dantesys.valentCity.ValentCity;
 import me.dantesys.valentCity.items.Reliquias;
-import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -14,14 +12,12 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Objects;
 import java.util.Random;
 
 public class FazendeiroEvent implements Listener {
@@ -103,13 +99,7 @@ public class FazendeiroEvent implements Listener {
                             }
                         }
                     }
-                    ItemStack item = new ItemStack(Objects.requireNonNull(MobsList.getEggType(lepresa)).getMaterial());
-                    String nome = lepresa.getName();
-                    ItemMeta meta = item.getItemMeta();
-                    meta.displayName(Component.text(nome));
-                    item.setItemMeta(meta);
                     lepresa.remove();
-                    lepresa.getWorld().dropItem(lepresa.getLocation(), item);
                     atacantepl.setCooldown(Reliquias.farm_modelo2.getType(),100);
                 }
             }

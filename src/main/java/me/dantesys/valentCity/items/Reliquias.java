@@ -4,6 +4,7 @@ import net.kyori.adventure.inventory.Book;
 import net.kyori.adventure.text.Component;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.block.Banner;
 import org.bukkit.block.banner.Pattern;
@@ -15,23 +16,21 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.BookMeta;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.tag.DamageTypeTags;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
+import static org.bukkit.attribute.Attribute.MAX_HEALTH;
+import static org.bukkit.attribute.Attribute.SCALE;
 
 public class Reliquias {
     public static ItemStack guerreiro;
-    public static ItemStack espadamd1;
-    public static ItemStack espadamd2;
+    public static ItemStack ceifador;
     public static ItemStack totem;
-    public static ItemStack enxada;
-    public static ItemStack spy_modelo1;
-    public static ItemStack spy_modelo2;
-    public static ItemStack tridente_modelo1;
-    public static ItemStack tridente_modelo2;
+    public static ItemStack spy;
+    public static ItemStack poseidon;
+    //
     public static ItemStack vento;
     public static ItemStack arco_modelo1;
     public static ItemStack arco_modelo2;
@@ -64,14 +63,9 @@ public class Reliquias {
     public static ItemStack fenix2;
     //copia (1 - players 2 - mobs), dragão
     public static void init() {
-        createEnxada();
-        createEspadamd1();
-        createEspadamd2();
         createTotem();
-        createSpy1();
-        createSpy2();
-        createTridente1();
-        createTridente2();
+        createSpy();
+        createPoseidon();
         createVento();
         createArco1();
         createArco2();
@@ -103,13 +97,14 @@ public class Reliquias {
         createFenix1();
         createFenix2();
         createGuerreiro();
+        createCeifador();
     }
     private static void createGuerreiro(){
         ItemStack item = new ItemStack(Material.NETHERITE_SWORD,1);
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text("§6Relíquia do Guerreiro"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Passiva: Resistencia"));
+        loreitem.add(Component.text("§7Passiva: Resistência"));
         loreitem.add(Component.text("§7Ativa: Força"));
         loreitem.add(Component.text("§7Special: Slash"));
         meta.lore(loreitem);
@@ -125,35 +120,16 @@ public class Reliquias {
         meta.setCustomModelData(1);
         guerreiro = item;
     }
-    private static void createEnxada() {
-        ItemStack item = new ItemStack(Material.NETHERITE_HOE, 1);
+    private static void createCeifador() {
+        ItemStack item = new ItemStack(Material.NETHERITE_SWORD, 1);
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text("§6Relíquia do Ceifador"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Uma foice sinistra"));
-        loreitem.add(Component.text("§7capaz de roubar a vida"));
-        loreitem.add(Component.text("§7dos monstros!"));
+        loreitem.add(Component.text("§7Passiva: Regeneração"));
+        loreitem.add(Component.text("§7Ativa: Invisibilidade"));
+        loreitem.add(Component.text("§7Special: Soul Colector!"));
+        loreitem.add(Component.text("§7Ultra-Special: Soul Reaper!"));
         meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.setDamageResistant(DamageTypeTags.IS_FIRE);
-        meta.addEnchant(Enchantment.SHARPNESS,15,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        enxada = item;
-    }
-    private static void createEspadamd1() {
-        ItemStack item = new ItemStack(Material.NETHERITE_SWORD, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Guerreiro (1)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7A espada mais poderosa de"));
-        loreitem.add(Component.text("§7todo o passado do Minecraft!"));
-        loreitem.add(Component.text("§7Modelo: Combatente"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
         meta.addEnchant(Enchantment.FIRE_ASPECT,2,true);
         meta.addEnchant(Enchantment.LOOTING,3,true);
@@ -161,147 +137,75 @@ public class Reliquias {
         meta.addEnchant(Enchantment.SMITE,5,true);
         meta.addEnchant(Enchantment.SWEEPING_EDGE,5,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(PLAYER_SWEEPING_DAMAGE_RATIO, new AttributeModifier(PLAYER_SWEEPING_DAMAGE_RATIO.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        item.setItemMeta(meta);
-        espadamd1 = item;
-    }
-    private static void createEspadamd2() {
-        ItemStack item = new ItemStack(Material.NETHERITE_SWORD, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Guerreiro (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7A espada mais poderosa de"));
-        loreitem.add(Component.text("§7todo o passado do Minecraft!"));
-        loreitem.add(Component.text("§7Modelo: Assasino"));
-        meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
-        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
-        meta.addEnchant(Enchantment.FIRE_ASPECT,2,true);
-        meta.addEnchant(Enchantment.LOOTING,3,true);
-        meta.addEnchant(Enchantment.SHARPNESS,5,true);
-        meta.addEnchant(Enchantment.SMITE,5,true);
-        meta.addEnchant(Enchantment.SWEEPING_EDGE,5,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(PLAYER_SWEEPING_DAMAGE_RATIO, new AttributeModifier(PLAYER_SWEEPING_DAMAGE_RATIO.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        item.setItemMeta(meta);
-        espadamd2 = item;
+        meta.setCustomModelData(2);
+        ceifador = item;
     }
     private static void createTotem() {
         ItemStack item = new ItemStack(Material.TOTEM_OF_UNDYING, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia da infinidade"));
+        meta.displayName(Component.text("§6Relíquia do Totem"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7O totem supremo"));
-        loreitem.add(Component.text("§7usado pela rainha Elizabeth II"));
+        loreitem.add(Component.text("§7Passiva: Regeneração 2"));
+        loreitem.add(Component.text("§7Ativa: Infinidade"));
+        loreitem.add(Component.text("§7Special: Stop!"));
         meta.lore(loreitem);
-        meta.setFireResistant(true);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
         meta.addEnchant(Enchantment.INFINITY,1,true);
+        meta.setCustomModelData(1);
         item.setItemMeta(meta);
         totem = item;
     }
-    private static void createSpy1() {
+    private static void createSpy() {
         ItemStack item = new ItemStack(Material.SPYGLASS, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Espião (1)"));
+        meta.displayName(Component.text("§6Relíquia do Espião"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato estranho"));
-        loreitem.add(Component.text("§7capaz de alterar a"));
-        loreitem.add(Component.text("§7realidade e descobrir"));
-        loreitem.add(Component.text("§7segredos"));
-        loreitem.add(Component.text("§7Modelo 1: Investigador"));
+        loreitem.add(Component.text("§7Passiva: Speed e Night Vision"));
+        loreitem.add(Component.text("§7Ativa: Microscópio!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.LOOTING,10,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(GENERIC_SCALE, new AttributeModifier(GENERIC_SCALE.getKey(),-0.99, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(PLAYER_SNEAKING_SPEED, new AttributeModifier(PLAYER_SNEAKING_SPEED.getKey(),2, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.99, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
-        spy_modelo1 = item;
+        spy = item;
     }
-    private static void createSpy2() {
-        ItemStack item = new ItemStack(Material.INK_SAC, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Espião (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato estranho"));
-        loreitem.add(Component.text("§7capaz de alterar a"));
-        loreitem.add(Component.text("§7realidade e descobrir"));
-        loreitem.add(Component.text("§7segredos"));
-        loreitem.add(Component.text("§7Modelo 2: Protetor"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.setFireResistant(true);
-        meta.setFireResistant(true);
-        meta.addEnchant(Enchantment.KNOCKBACK,2,true);
-        meta.addAttributeModifier(PLAYER_ENTITY_INTERACTION_RANGE, new AttributeModifier(PLAYER_ENTITY_INTERACTION_RANGE.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_SCALE, new AttributeModifier(GENERIC_SCALE.getKey(),-0.75, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        spy_modelo2 = item;
-    }
-    private static void createTridente1() {
+    private static void createPoseidon() {
         ItemStack item = new ItemStack(Material.TRIDENT, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Tridente (1)"));
+        meta.displayName(Component.text("§6Relíquia do Poseidon"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato antigo"));
-        loreitem.add(Component.text("§7que comanda os mares"));
-        loreitem.add(Component.text("§7Modelo 1: Tempest"));
+        loreitem.add(Component.text("§7Passivo: Conduit Power e Graça dos golfinho"));
+        loreitem.add(Component.text("§7Ativo: Sem dano de queda"));
+        loreitem.add(Component.text("§7Special: Thunder Rain!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
-        meta.addAttributeModifier(GENERIC_ATTACK_DAMAGE, new AttributeModifier(GENERIC_ATTACK_DAMAGE.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addEnchant(Enchantment.IMPALING,20,true);
-        meta.addEnchant(Enchantment.LOYALTY,5,true);
-        meta.addEnchant(Enchantment.LOOTING,3,true);
-        meta.addEnchant(Enchantment.CHANNELING,5,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        tridente_modelo1 = item;
-    }
-    private static void createTridente2() {
-        ItemStack item = new ItemStack(Material.TRIDENT, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Tridente (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato antigo"));
-        loreitem.add(Component.text("§7que comanda os mares"));
-        loreitem.add(Component.text("§7Modelo 2: Aqua Jet"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.setFireResistant(true);
-        meta.addAttributeModifier(GENERIC_MOVEMENT_SPEED, new AttributeModifier(GENERIC_MOVEMENT_SPEED.getKey(),2, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.SAFE_FALL_DISTANCE, new AttributeModifier(Attribute.SAFE_FALL_DISTANCE.getKey(),100000000, AttributeModifier.Operation.ADD_NUMBER));
         meta.addEnchant(Enchantment.IMPALING,20,true);
         meta.addEnchant(Enchantment.LOOTING,3,true);
         meta.addEnchant(Enchantment.RIPTIDE,5,true);
+        meta.addEnchant(Enchantment.SHARPNESS,5,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
-        tridente_modelo2 = item;
+        meta.setCustomModelData(1);
+        poseidon = item;
     }
     private static void createVento() {
         ItemStack item = new ItemStack(Material.WIND_CHARGE, 1);
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text("§6Relíquia do Vento"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato antigo"));
-        loreitem.add(Component.text("§7que é a própia essência"));
-        loreitem.add(Component.text("§7de um tornado"));
+        loreitem.add(Component.text("§7Passivo: SlowFall"));
+        loreitem.add(Component.text("§7Ativo: Infinito!"));
+        loreitem.add(Component.text("§7Special: Go to Space!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
-        meta.addAttributeModifier(GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(GENERIC_ATTACK_KNOCKBACK.getKey(),100, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_ATTACK_SPEED, new AttributeModifier(GENERIC_ATTACK_SPEED.getKey(),100, AttributeModifier.Operation.ADD_NUMBER));
         meta.addEnchant(Enchantment.KNOCKBACK,10000,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
@@ -319,10 +223,8 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.INFINITY,1,true);
         meta.addEnchant(Enchantment.POWER,20,true);
-        meta.addAttributeModifier(PLAYER_SNEAKING_SPEED, new AttributeModifier(PLAYER_SNEAKING_SPEED.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         arco_modelo1 = item;
@@ -339,7 +241,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.FLAME,1,true);
         meta.addEnchant(Enchantment.INFINITY,1,true);
         meta.addEnchant(Enchantment.POWER,3,true);
@@ -359,7 +260,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.FORTUNE,3,true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -378,7 +278,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.INFINITY,1,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
@@ -396,7 +295,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.MULTISHOT,50,true);
         meta.addEnchant(Enchantment.PIERCING,10,true);
         meta.addEnchant(Enchantment.QUICK_CHARGE,3,true);
@@ -416,7 +314,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.MULTISHOT,50,true);
         meta.addEnchant(Enchantment.PIERCING,10,true);
         meta.addEnchant(Enchantment.QUICK_CHARGE,3,true);
@@ -436,11 +333,9 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.FORTUNE,5,true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
-        meta.addAttributeModifier(GENERIC_LUCK, new AttributeModifier(GENERIC_LUCK.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_SCALE, new AttributeModifier(GENERIC_SCALE.getKey(),-0.5, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.5, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         picareta_md1 = item;
@@ -457,14 +352,10 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.INFINITY,1,true);
         meta.addEnchant(Enchantment.SILK_TOUCH,1,true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
-        meta.addAttributeModifier(PLAYER_BLOCK_INTERACTION_RANGE, new AttributeModifier(PLAYER_BLOCK_INTERACTION_RANGE.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, new AttributeModifier(GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE.getKey(),1000, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),1000, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_SCALE, new AttributeModifier(GENERIC_SCALE.getKey(),-0.5, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.5, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         picareta_md2 = item;
@@ -479,9 +370,7 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.SILK_TOUCH,1,true);
-        meta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         domador = item;
@@ -511,7 +400,6 @@ public class Reliquias {
         }
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         item.setItemMeta(meta);
         mago = item;
     }
@@ -521,9 +409,7 @@ public class Reliquias {
         meta.displayName(Component.text("§6Power"));
         meta.setRarity(ItemRarity.UNCOMMON);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.POWER,1,true);
-        meta.addAttributeModifier(GENERIC_ATTACK_DAMAGE, new AttributeModifier(GENERIC_ATTACK_DAMAGE.getKey(),1, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
         power = item;
     }
@@ -533,9 +419,8 @@ public class Reliquias {
         meta.displayName(Component.text("§6Life"));
         meta.setRarity(ItemRarity.UNCOMMON);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.PROTECTION,1,true);
-        meta.addAttributeModifier(GENERIC_MAX_HEALTH, new AttributeModifier(GENERIC_MAX_HEALTH.getKey(),1, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(MAX_HEALTH, new AttributeModifier(MAX_HEALTH.getKey(),1, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
         life = item;
     }
@@ -550,7 +435,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.PROTECTION,4,true);
         meta.addEnchant(Enchantment.FIRE_PROTECTION,4,true);
         meta.addEnchant(Enchantment.PROJECTILE_PROTECTION,4,true);
@@ -559,7 +443,6 @@ public class Reliquias {
         meta.addEnchant(Enchantment.FEATHER_FALLING,4,true);
         meta.addEnchant(Enchantment.SOUL_SPEED,3,true);
         meta.addEnchant(Enchantment.FROST_WALKER,2,true);
-        meta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         pisante_md1 = item;
@@ -575,7 +458,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.PROTECTION,4,true);
         meta.addEnchant(Enchantment.FIRE_PROTECTION,4,true);
         meta.addEnchant(Enchantment.PROJECTILE_PROTECTION,4,true);
@@ -584,7 +466,6 @@ public class Reliquias {
         meta.addEnchant(Enchantment.FEATHER_FALLING,20,true);
         meta.addEnchant(Enchantment.SOUL_SPEED,3,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
         pisante_md2 = item;
     }
@@ -608,13 +489,8 @@ public class Reliquias {
         bmeta.lore(loreitem);
         bmeta.setRarity(ItemRarity.EPIC);
         bmeta.setUnbreakable(true);
-        bmeta.setFireResistant(true);
         bmeta.addEnchant(Enchantment.THORNS,5,true);
         bmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        bmeta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        bmeta.addAttributeModifier(GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(GENERIC_ARMOR_TOUGHNESS.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        bmeta.addAttributeModifier(GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, new AttributeModifier(GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
-        bmeta.addAttributeModifier(GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(GENERIC_KNOCKBACK_RESISTANCE.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(bmeta);
         escudo_md1 = item;
     }
@@ -638,12 +514,7 @@ public class Reliquias {
         bmeta.lore(loreitem);
         bmeta.setRarity(ItemRarity.EPIC);
         bmeta.setUnbreakable(true);
-        bmeta.setFireResistant(true);
         bmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        bmeta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),20, AttributeModifier.Operation.ADD_NUMBER));
-        bmeta.addAttributeModifier(GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(GENERIC_ARMOR_TOUGHNESS.getKey(),20, AttributeModifier.Operation.ADD_NUMBER));
-        bmeta.addAttributeModifier(GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE, new AttributeModifier(GENERIC_EXPLOSION_KNOCKBACK_RESISTANCE.getKey(),20, AttributeModifier.Operation.ADD_NUMBER));
-        bmeta.addAttributeModifier(GENERIC_KNOCKBACK_RESISTANCE, new AttributeModifier(GENERIC_KNOCKBACK_RESISTANCE.getKey(),20, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(bmeta);
         escudo_md2 = item;
     }
@@ -657,7 +528,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
         meta.addEnchant(Enchantment.BREACH,4,true);
         meta.addEnchant(Enchantment.DENSITY,5,true);
@@ -667,8 +537,6 @@ public class Reliquias {
         meta.addEnchant(Enchantment.SMITE,5,true);
         meta.addEnchant(Enchantment.WIND_BURST,3,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(GENERIC_SAFE_FALL_DISTANCE, new AttributeModifier(GENERIC_SAFE_FALL_DISTANCE.getKey(),500, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_ATTACK_KNOCKBACK, new AttributeModifier(GENERIC_ATTACK_KNOCKBACK.getKey(),2, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
         marreta = item;
     }
@@ -682,7 +550,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.AQUA_AFFINITY,1,true);
         meta.addEnchant(Enchantment.BLAST_PROTECTION,4,true);
         meta.addEnchant(Enchantment.FIRE_PROTECTION,4,true);
@@ -690,9 +557,6 @@ public class Reliquias {
         meta.addEnchant(Enchantment.PROTECTION,4,true);
         meta.addEnchant(Enchantment.THORNS,3,true);
         meta.addEnchant(Enchantment.RESPIRATION,3,true);
-        meta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),2, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_ARMOR_TOUGHNESS, new AttributeModifier(GENERIC_ARMOR_TOUGHNESS.getKey(),2, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_OXYGEN_BONUS, new AttributeModifier(GENERIC_OXYGEN_BONUS.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         capacete = item;
@@ -708,11 +572,8 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.LUCK_OF_THE_SEA,3,true);
         meta.addEnchant(Enchantment.LURE,3,true);
-        meta.addAttributeModifier(GENERIC_ATTACK_DAMAGE, new AttributeModifier(GENERIC_ATTACK_DAMAGE.getKey(),2, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_OXYGEN_BONUS, new AttributeModifier(GENERIC_OXYGEN_BONUS.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         pescador = item;
@@ -729,14 +590,12 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.BLAST_PROTECTION,4,true);
         meta.addEnchant(Enchantment.FIRE_PROTECTION,4,true);
         meta.addEnchant(Enchantment.PROJECTILE_PROTECTION,4,true);
         meta.addEnchant(Enchantment.PROTECTION,4,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(GENERIC_SCALE, new AttributeModifier(GENERIC_SCALE.getKey(),-0.15, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_FALL_DAMAGE_MULTIPLIER, new AttributeModifier(GENERIC_FALL_DAMAGE_MULTIPLIER.getKey(),2, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.15, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
         peitoral_md1 = item;
     }
@@ -751,11 +610,7 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
-        meta.addAttributeModifier(GENERIC_SAFE_FALL_DISTANCE, new AttributeModifier(GENERIC_SAFE_FALL_DISTANCE.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_FLYING_SPEED, new AttributeModifier(GENERIC_FLYING_SPEED.getKey(),0.5, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_ARMOR, new AttributeModifier(GENERIC_ARMOR.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_MOVEMENT_EFFICIENCY, new AttributeModifier(GENERIC_MOVEMENT_EFFICIENCY.getKey(),1, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(Attribute.SAFE_FALL_DISTANCE, new AttributeModifier(Attribute.SAFE_FALL_DISTANCE.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         peitoral_md2 = item;
@@ -771,7 +626,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.BLAST_PROTECTION,4,true);
         meta.addEnchant(Enchantment.FIRE_PROTECTION,4,true);
         meta.addEnchant(Enchantment.PROJECTILE_PROTECTION,4,true);
@@ -792,7 +646,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
         meta.addEnchant(Enchantment.SILK_TOUCH,1,true);
@@ -815,7 +668,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
         meta.addEnchant(Enchantment.SILK_TOUCH,1,true);
         meta.addEnchant(Enchantment.FORTUNE,3,true);
@@ -834,7 +686,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.INFINITY,1,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
@@ -851,12 +702,11 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.BLAST_PROTECTION,5,true);
         meta.addEnchant(Enchantment.PROTECTION,5,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(GENERIC_SCALE, new AttributeModifier(GENERIC_SCALE.getKey(),0.5, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addAttributeModifier(GENERIC_MAX_HEALTH, new AttributeModifier(GENERIC_MAX_HEALTH.getKey(),20, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),0.25, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(MAX_HEALTH, new AttributeModifier(MAX_HEALTH.getKey(),20, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
         hulk = item;
     }
@@ -871,7 +721,6 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.FIRE_PROTECTION,100,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
@@ -888,14 +737,12 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
         meta.addEnchant(Enchantment.FIRE_ASPECT,50,true);
         meta.addEnchant(Enchantment.LOOTING,3,true);
         meta.addEnchant(Enchantment.SHARPNESS,5,true);
         meta.addEnchant(Enchantment.SMITE,5,true);
         meta.addEnchant(Enchantment.SWEEPING_EDGE,5,true);
-        meta.addAttributeModifier(PLAYER_SWEEPING_DAMAGE_RATIO, new AttributeModifier(PLAYER_SWEEPING_DAMAGE_RATIO.getKey(),5, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         fenix2 = item;
@@ -906,18 +753,15 @@ public class Reliquias {
         meta.setAuthor("O Explorador");
         meta.displayName(Component.text("§6Manual das Reliquias"));
         List<Component> pages = new ArrayList<>();
-        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro"));
+        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento"));
+        pages.add(Component.text("§r§0Passivo é quando o item está no invetario\nAtivo quando o jogador está segurando o item na mão principal\nPara usar o special precisa está agachado!"));
+        pages.add(Component.text("§l§6Relíquia do Guerreiro\n§r§0Special:\nUm corte especial que atravessa blocos chega até 50 blocos de distância e causa 20 de dano bruto por hit!"));
+        pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Special:\nUma ataque especial que atravessa blocos chega até 50 blocos de distância que tem chance de 1% de transformar seu alvo em um totem ou tirar 50% de vida do alvo!\nUltra-SPecial (Reque totem para ativar):Ao gastar o totem envia um ataque que mata a primeira entidade que achar pelo caminho!"));
+        pages.add(Component.text("§l§6Relíquia do Totem\n§r§0Special:\nUma fumaça paralizante que dá slow 5 nas entidades proxímas!"));
+        pages.add(Component.text("§l§6Relíquia do Poseidon\n§r§0Special:\nInicia uma tempestade de raios!"));
+        pages.add(Component.text("§l§6Relíquia do Vento\n§r§0Special:\nEnvia todos as entidades proximas para o \"espaço\" (levitação)!"));
         pages.add(Component.text("§r§0Reliquias:\n(1) - Ceifador\n(2) - Guerreiro\n(3) - Infinidade\n(4) - Espião\n(5) - Tridente\n(6) - Vento\n(7) - Arco\n(8) - Fazendeiro\n(9) - Crossbow\n(10) - Mineiro\n(11) - Domador\n(12) - Mago"));
         pages.add(Component.text("§r§0(13) - Pisante\n(14) - Escudo\n(15) - Marreta\n(16) - Capacete\n(17) - Pescador\n(18) - Peitoral\n(19) - Calça\n(20) - Barbaro\n(21) - Escavação\n(22) - Ladrão\n(23) - Hulk\n(24) - Fenix"));
-        pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Efeitos:\nNa mão: Visão Noturna e aura sombria\nNo ataque: Regeneração, no alvo Escuridão\nHabilidade: Quando mata um mob do tipo Monster dropa uma maçã que aumenta a vida"));
-        pages.add(Component.text("§l§6Relíquia do Guerreiro - Combatente\n§r§0Efeitos:\nNa mão: Resistência\nNo ataque: Força e velocidade, no alvo lentidão, naúse e deixa ele brilhando\nHabilidade: Quando mata um mob do tipo Monster dropa uma maçã que aumenta o ataque"));
-        pages.add(Component.text("§l§6Relíquia do Guerreiro - Assasino\n§r§0Efeitos:\nNa mão: Regeneração\nNo ataque: Força \nHabilidade: Quando está na hotbar ganha efeito de invisibilidade"));
-        pages.add(Component.text("§l§6Relíquia da Infinidade\n§r§0Efeitos:\nNa mão: Regeneração\nNa outra mão: Saturação\nNo ataque: Regeneração, no alvo regeneração\nHabilidade: Quando ativo ele desaparece e reaparece em 5 segundos"));
-        pages.add(Component.text("§l§6Relíquia do Espião - Investigador\n§r§0Efeitos:\nNa mão: Visão noturna, velocidade, invisibilidade e encolhimento\nNo ataque: O alvo fica com escuridão\nHabilidade: -Não possui habilidade especial-"));
-        pages.add(Component.text("§l§6Relíquia do Espião - Protetor\n§r§0Efeitos:\nNa mão: Visão noturna, velocidade, resistência e encolhimento\nNo ataque: O alvo fica com escuridão, naúsea e lentidão\nHabilidade: -Não possui habilidade especial-"));
-        pages.add(Component.text("§l§6Relíquia do Tridente - Tempest\n§r§0Efeitos:\nNa mão: Respiração aquática, Conduit Power e Graça dos golfinhos\nNo ataque: O alvo fica sem oxigênio\nHabilidade: -Não possui habilidade especial-"));
-        pages.add(Component.text("§l§6Relíquia do Tridente - Aqua Jet\n§r§0Efeitos:\nNa mão: Respiração aquática, Conduit Power, Graça dos golfinhos e velocidade\nHabilidade: -Não possui habilidade especial-"));
-        pages.add(Component.text("§l§6Relíquia do Vento\n§r§0Efeitos:\nNa mão: -Sem efeito-\nNo ataque: O alvo é jogado para longe\nHabilidade: É infinito, nunca acaba"));
         pages.add(Component.text("§l§6Relíquia do Arco - Sniper\n§r§0Efeitos:\nNa mão: Visão noturna e invisibilidade\nNo ataque: A velocidade da flecha 100 vezes mais rápida\nHabilidade: Não precisa de flechas"));
         pages.add(Component.text("§l§6Relíquia do Arco - Minigun\n§r§0Efeitos:\nNa mão: Brilhante e lentidão\nNo ataque: A velocidade de atirar outra flecha é nula\nHabilidade: Não precisa de flechas"));
         pages.add(Component.text("§l§6Relíquia do Fazendeiro - Agro\n§r§0Efeitos:\nNa mão: Saturação e Sorte\nNo ataque: Pode arancar sementes\nHabilidade: Aplica farinha de osso nas plantações, Se com sementes no inventario pode joga-las"));
@@ -950,7 +794,6 @@ public class Reliquias {
         }
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.setFireResistant(true);
         item.setItemMeta(meta);
         livro = item;
     }

@@ -32,12 +32,12 @@ public class PicaretaEvent implements Listener {
         try{
             if(item != null && item.isSimilar(Reliquias.picareta_md1)){
                 ReliquiasEvent.limparEfeito(player);
-                Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_SCALE)).setBaseValue(0.5);
+                Objects.requireNonNull(player.getAttribute(Attribute.SCALE)).setBaseValue(0.5);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, -1, 9));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 1));
             }else if(item != null && item.isSimilar(Reliquias.picareta_md2)){
                 ReliquiasEvent.limparEfeito(player);
-                Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_SCALE)).setBaseValue(0.5);
+                Objects.requireNonNull(player.getAttribute(Attribute.SCALE)).setBaseValue(0.5);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, -1, 1));
                 player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 1));
             }else{
@@ -55,11 +55,11 @@ public class PicaretaEvent implements Listener {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SATURATION, -1, 1));
             }else{
                 if(item != null && item.isSimilar(Reliquias.picareta_md1)){
-                    Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_SCALE)).setBaseValue(0.5);
+                    Objects.requireNonNull(player.getAttribute(Attribute.SCALE)).setBaseValue(0.5);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, -1, 9));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 1));
                 }else if(item != null && item.isSimilar(Reliquias.picareta_md2)){
-                    Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_SCALE)).setBaseValue(0.5);
+                    Objects.requireNonNull(player.getAttribute(Attribute.SCALE)).setBaseValue(0.5);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE, -1, 1));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, -1, 1));
                 }else{
@@ -100,8 +100,6 @@ public class PicaretaEvent implements Listener {
                 }
             }
             if (atacantepl.getInventory().getItemInMainHand().isSimilar(Reliquias.picareta_md2)) {
-                Location l = presa.getLocation();
-                World w = presa.getWorld();
                 event.setDamage(event.getFinalDamage()*5);
             }
         }
