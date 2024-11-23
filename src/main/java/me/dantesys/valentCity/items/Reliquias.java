@@ -30,8 +30,8 @@ public class Reliquias {
     public static ItemStack totem;
     public static ItemStack spy;
     public static ItemStack poseidon;
-    //
     public static ItemStack vento;
+    //
     public static ItemStack arco_modelo1;
     public static ItemStack arco_modelo2;
     public static ItemStack farm_modelo1;
