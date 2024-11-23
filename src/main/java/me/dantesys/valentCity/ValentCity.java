@@ -27,15 +27,13 @@ public final class ValentCity extends JavaPlugin{
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
             commands.register(Commands.literal("reliquia")
-                .then(
-                    Commands.argument("player", ArgumentTypes.resource(RegistryKey.ENCHANTMENT))
-                        .executes(ctx -> {
-                            ctx.getSource().getSender().sendPlainMessage(
-                                ctx.getArgument("enchantmentargument", Enchantment.class).getKey().toString()
-                            );
-                            return Command.SINGLE_SUCCESS;
-                        })
-                ).build(),
+                .then(Commands.argument("player", ArgumentTypes.player())
+                .executes(ctx -> {
+                    ctx.getSource().getSender().sendPlainMessage(
+                        ctx.getArgument("enchantmentargument", Enchantment.class).getKey().toString()
+                    );
+                    return Command.SINGLE_SUCCESS;
+                })).build(),
                 "Comando para receber as reliquias",
                 List.of("an-alias"));
         });
