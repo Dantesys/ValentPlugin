@@ -1,6 +1,8 @@
 package me.dantesys.valentCity;
 
+import com.mojang.brigadier.Command;
 import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import me.dantesys.valentCity.commands.GiveReliquia;
@@ -25,9 +27,17 @@ public final class ValentCity extends JavaPlugin{
         manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
             final Commands commands = event.registrar();
             commands.register(Commands.literal("reliquia")
-                    .executes(cxt -> {
-                        ctx.getSource().getSender().sendPlainMessage("Reliquia concedida")
-                    }));
+                .then(
+                    Commands.argument("player", ArgumentTypes.resource(RegistryKey.ENCHANTMENT))
+                        .executes(ctx -> {
+                            ctx.getSource().getSender().sendPlainMessage(
+                                ctx.getArgument("enchantmentargument", Enchantment.class).getKey().toString()
+                            );
+                            return Command.SINGLE_SUCCESS;
+                        })
+                ).build(),
+                "Comando para receber as reliquias",
+                List.of("an-alias"));
         });
         Objects.requireNonNull(getCommand("reliquia")).setExecutor(new GiveReliquia());
         NamespacedKey key_espa1 = new NamespacedKey(this, "ESPA1");
