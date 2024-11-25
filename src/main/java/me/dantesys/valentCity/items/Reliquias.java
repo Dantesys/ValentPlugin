@@ -21,8 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.bukkit.Bukkit.getServer;
-import static org.bukkit.attribute.Attribute.MAX_HEALTH;
-import static org.bukkit.attribute.Attribute.SCALE;
+import static org.bukkit.attribute.Attribute.*;
 
 public class Reliquias {
     public static ItemStack guerreiro;
@@ -31,11 +30,10 @@ public class Reliquias {
     public static ItemStack spy;
     public static ItemStack poseidon;
     public static ItemStack vento;
+    public static ItemStack arco;
+    public static ItemStack farmer;
+    public static ItemStack marreta;
     //
-    public static ItemStack arco_modelo1;
-    public static ItemStack arco_modelo2;
-    public static ItemStack farm_modelo1;
-    public static ItemStack farm_modelo2;
     public static ItemStack crossbowmd1;
     public static ItemStack crossbowmd2;
     public static ItemStack picareta_md1;
@@ -46,7 +44,6 @@ public class Reliquias {
     public static ItemStack pisante_md2;
     public static ItemStack escudo_md1;
     public static ItemStack escudo_md2;
-    public static ItemStack marreta;
     public static ItemStack capacete;
     public static ItemStack pescador;
     public static ItemStack peitoral_md1;
@@ -56,34 +53,21 @@ public class Reliquias {
     public static ItemStack escavacao;
     public static ItemStack ladrao;
     public static ItemStack livro;
-    public static ItemStack power;
-    public static ItemStack life;
     public static ItemStack hulk;
     public static ItemStack fenix1;
     public static ItemStack fenix2;
     //copia (1 - players 2 - mobs), dragão
     public static void init() {
-        createTotem();
-        createSpy();
-        createPoseidon();
-        createVento();
-        createArco1();
-        createArco2();
-        createFarm1();
-        createFarm2();
         createCrossbowmd1();
         createCrossbowmd2();
         createPick1();
         createPick2();
         createDomador();
         createMago();
-        createPower();
-        createLife();
         createPis1();
         createPis2();
         createEsc1();
         createEsc2();
-        createMarreta();
         createCapacete();
         createPescador();
         createPeitoral1();
@@ -96,8 +80,16 @@ public class Reliquias {
         createHulk();
         createFenix1();
         createFenix2();
+        //
         createGuerreiro();
         createCeifador();
+        createArco();
+        createFarmer();
+        createTotem();
+        createSpy();
+        createPoseidon();
+        createVento();
+        createMarreta();
     }
     private static void createGuerreiro(){
         ItemStack item = new ItemStack(Material.NETHERITE_SWORD,1);
@@ -148,7 +140,7 @@ public class Reliquias {
         meta.displayName(Component.text("§6Relíquia do Totem"));
         List<Component> loreitem = new ArrayList<>();
         loreitem.add(Component.text("§7Passiva: Regeneração 2"));
-        loreitem.add(Component.text("§7Ativa: Infinidade"));
+        loreitem.add(Component.text("§7Ativa: Infinidade 5s"));
         loreitem.add(Component.text("§7Special: Stop!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
@@ -165,11 +157,14 @@ public class Reliquias {
         List<Component> loreitem = new ArrayList<>();
         loreitem.add(Component.text("§7Passiva: Speed e Night Vision"));
         loreitem.add(Component.text("§7Ativa: Microscópio!"));
+        loreitem.add(Component.text("§7Special: Ghost"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
         meta.addEnchant(Enchantment.LOOTING,10,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.setCustomModelData(1);
+        meta.addAttributeModifier(ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE.getKey(),+10, AttributeModifier.Operation.ADD_NUMBER));
         meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.99, AttributeModifier.Operation.ADD_NUMBER));
         item.setItemMeta(meta);
         spy = item;
@@ -180,7 +175,7 @@ public class Reliquias {
         meta.displayName(Component.text("§6Relíquia do Poseidon"));
         List<Component> loreitem = new ArrayList<>();
         loreitem.add(Component.text("§7Passivo: Conduit Power e Graça dos golfinho"));
-        loreitem.add(Component.text("§7Ativo: Sem dano de queda"));
+        loreitem.add(Component.text("§7Ativo: No Fall Damage"));
         loreitem.add(Component.text("§7Special: Thunder Rain!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
@@ -206,82 +201,77 @@ public class Reliquias {
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
+        meta.setCustomModelData(1);
         meta.addEnchant(Enchantment.KNOCKBACK,10000,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         vento = item;
     }
-    private static void createArco1() {
+    private static void createArco() {
         ItemStack item = new ItemStack(Material.BOW, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Arco (1)"));
+        meta.displayName(Component.text("§6Relíquia do Arco"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato antigo"));
-        loreitem.add(Component.text("§7que dispara uma flecha"));
-        loreitem.add(Component.text("§7com força incoparavel"));
-        loreitem.add(Component.text("§7Modelo: Sniper"));
+        loreitem.add(Component.text("§7Passivo: Night Vision"));
+        loreitem.add(Component.text("§7Ativo: Invisibilidade"));
+        loreitem.add(Component.text("§7Special: Magic Arrow!"));
+        loreitem.add(Component.text("§7Ultra-Special: Explosive Arrow!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
         meta.addEnchant(Enchantment.INFINITY,1,true);
         meta.addEnchant(Enchantment.POWER,20,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        arco_modelo1 = item;
-    }
-    private static void createArco2() {
-        ItemStack item = new ItemStack(Material.BOW, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Arco (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato antigo"));
-        loreitem.add(Component.text("§7que dispara uma rajada"));
-        loreitem.add(Component.text("§7de flechas"));
-        loreitem.add(Component.text("§7Modelo: Minigun"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
         meta.addEnchant(Enchantment.FLAME,1,true);
-        meta.addEnchant(Enchantment.INFINITY,1,true);
-        meta.addEnchant(Enchantment.POWER,3,true);
+        meta.addEnchant(Enchantment.PUNCH,2,true);
+        meta.addEnchant(Enchantment.PIERCING,5,true);
+        meta.setCustomModelData(1);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
-        arco_modelo2 = item;
+        arco = item;
     }
-    private static void createFarm1() {
+    private static void createFarmer() {
         ItemStack item = new ItemStack(Material.NETHERITE_HOE, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Fazendeiro (1)"));
+        meta.displayName(Component.text("§6Relíquia do Farmer"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato antigo"));
-        loreitem.add(Component.text("§7que fazer crescer"));
-        loreitem.add(Component.text("§7suas plantações"));
-        loreitem.add(Component.text("§7Modelo: Agro"));
+        loreitem.add(Component.text("§7Passivo: Sorte"));
+        loreitem.add(Component.text("§7Ativo: Negociador"));
+        loreitem.add(Component.text("§7Special: Back to Egg!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.FORTUNE,3,true);
+        meta.setCustomModelData(1);
+        meta.addEnchant(Enchantment.FORTUNE,10,true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
+        meta.addEnchant(Enchantment.SHARPNESS,10,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
-        farm_modelo1 = item;
+        farmer = item;
     }
-    private static void createFarm2() {
-        ItemStack item = new ItemStack(Material.LEAD, 1);
+    private static void createMarreta() {
+        ItemStack item = new ItemStack(Material.MACE, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Fazendeiro (2)"));
+        meta.displayName(Component.text("§6Relíquia da Marreta"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato antigo"));
-        loreitem.add(Component.text("§7que controla"));
-        loreitem.add(Component.text("§7seu animais"));
-        loreitem.add(Component.text("§7Modelo: Pecuário"));
+        loreitem.add(Component.text("§7Passiva: Força"));
+        loreitem.add(Component.text("§7Ativa: No Fall Damage!"));
+        loreitem.add(Component.text("§7Special: Home Run!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.INFINITY,1,true);
+        meta.setCustomModelData(1);
+        meta.addAttributeModifier(Attribute.SAFE_FALL_DISTANCE, new AttributeModifier(Attribute.SAFE_FALL_DISTANCE.getKey(),100000000, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
+        meta.addEnchant(Enchantment.BREACH,4,true);
+        meta.addEnchant(Enchantment.DENSITY,5,true);
+        meta.addEnchant(Enchantment.FIRE_ASPECT,2,true);
+        meta.addEnchant(Enchantment.LOOTING,3,true);
+        meta.addEnchant(Enchantment.SHARPNESS,5,true);
+        meta.addEnchant(Enchantment.SMITE,5,true);
+        meta.addEnchant(Enchantment.WIND_BURST,3,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
-        farm_modelo2 = item;
+        marreta = item;
     }
     private static void createCrossbowmd1() {
         ItemStack item = new ItemStack(Material.CROSSBOW, 1);
@@ -403,27 +393,6 @@ public class Reliquias {
         item.setItemMeta(meta);
         mago = item;
     }
-    private static void createPower() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Power"));
-        meta.setRarity(ItemRarity.UNCOMMON);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.POWER,1,true);
-        item.setItemMeta(meta);
-        power = item;
-    }
-    private static void createLife() {
-        ItemStack item = new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Life"));
-        meta.setRarity(ItemRarity.UNCOMMON);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.PROTECTION,1,true);
-        meta.addAttributeModifier(MAX_HEALTH, new AttributeModifier(MAX_HEALTH.getKey(),1, AttributeModifier.Operation.ADD_NUMBER));
-        item.setItemMeta(meta);
-        life = item;
-    }
     private static void createPis1() {
         ItemStack item = new ItemStack(Material.NETHERITE_BOOTS, 1);
         ItemMeta meta = item.getItemMeta();
@@ -517,28 +486,6 @@ public class Reliquias {
         bmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(bmeta);
         escudo_md2 = item;
-    }
-    private static void createMarreta() {
-        ItemStack item = new ItemStack(Material.MACE, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia da Marreta"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7A marreta mais poderosa de"));
-        loreitem.add(Component.text("§7todo o Minecraft!"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
-        meta.addEnchant(Enchantment.BREACH,4,true);
-        meta.addEnchant(Enchantment.DENSITY,5,true);
-        meta.addEnchant(Enchantment.FIRE_ASPECT,2,true);
-        meta.addEnchant(Enchantment.LOOTING,3,true);
-        meta.addEnchant(Enchantment.SHARPNESS,5,true);
-        meta.addEnchant(Enchantment.SMITE,5,true);
-        meta.addEnchant(Enchantment.WIND_BURST,3,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        marreta = item;
     }
     private static void createCapacete() {
         ItemStack item = new ItemStack(Material.NETHERITE_HELMET, 1);
@@ -753,13 +700,17 @@ public class Reliquias {
         meta.setAuthor("O Explorador");
         meta.displayName(Component.text("§6Manual das Reliquias"));
         List<Component> pages = new ArrayList<>();
-        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento"));
-        pages.add(Component.text("§r§0Passivo é quando o item está no invetario\nAtivo quando o jogador está segurando o item na mão principal\nPara usar o special precisa está agachado!"));
+        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento\n(7) - Arco\n(8) - Farmer\n(9) - Marreta"));
+        pages.add(Component.text("§r§0Passivo é quando o item está no invetario\nAtivo quando o jogador está segurando o item na mão principal\nPara usar o special precisa está agachado e usar a reliquia, no caso de armadura só está com ela equipada!"));
         pages.add(Component.text("§l§6Relíquia do Guerreiro\n§r§0Special:\nUm corte especial que atravessa blocos chega até 50 blocos de distância e causa 20 de dano bruto por hit!"));
-        pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Special:\nUma ataque especial que atravessa blocos chega até 50 blocos de distância que tem chance de 1% de transformar seu alvo em um totem ou tirar 50% de vida do alvo!\nUltra-SPecial (Reque totem para ativar):Ao gastar o totem envia um ataque que mata a primeira entidade que achar pelo caminho!"));
+        pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Special:\nUma ataque especial que atravessa blocos chega até 50 blocos de distância que tem chance de 1% de transformar seu alvo em um totem ou tirar 50% de vida do alvo!\nUltra-Special (Reque totem para ativar):Ao gastar o totem envia um ataque que mata a primeira entidade que achar pelo caminho!"));
+        pages.add(Component.text("§l§6Relíquia do Spy\n§r§0Special: Entra no modo espectador por 10 segundos!\n"));
         pages.add(Component.text("§l§6Relíquia do Totem\n§r§0Special:\nUma fumaça paralizante que dá slow 5 nas entidades proxímas!"));
         pages.add(Component.text("§l§6Relíquia do Poseidon\n§r§0Special:\nInicia uma tempestade de raios!"));
         pages.add(Component.text("§l§6Relíquia do Vento\n§r§0Special:\nEnvia todos as entidades proximas para o \"espaço\" (levitação)!"));
+        pages.add(Component.text("§l§6Relíquia do Arco\n§r§0Special:\nUma flecha que voa mais rapido que uma bala\nUltra-Specual (Reque tnt no inventario): Dispara um flecha rápida que explode no contato, a força da explosão é de no minimo 1 tnt a 64 tnt o máximo\nAVISO A EXPLOSÃO PODE TAMBÉM AFETA O ATIRADOR SE ESTIVER PERTO!"));
+        pages.add(Component.text("§l§6Relíquia do Farmer\n§r§0Special:\nTransforma todos os mobs próximos num raio de 15 blocos em spawn egg"));
+        pages.add(Component.text("§l§6Relíquia da Marreta\n§r§0Special:\nNo overworld dispara uma rajada de vento, no nether um bola de fogo e no end bafo do dragão"));
         pages.add(Component.text("§r§0Reliquias:\n(1) - Ceifador\n(2) - Guerreiro\n(3) - Infinidade\n(4) - Espião\n(5) - Tridente\n(6) - Vento\n(7) - Arco\n(8) - Fazendeiro\n(9) - Crossbow\n(10) - Mineiro\n(11) - Domador\n(12) - Mago"));
         pages.add(Component.text("§r§0(13) - Pisante\n(14) - Escudo\n(15) - Marreta\n(16) - Capacete\n(17) - Pescador\n(18) - Peitoral\n(19) - Calça\n(20) - Barbaro\n(21) - Escavação\n(22) - Ladrão\n(23) - Hulk\n(24) - Fenix"));
         pages.add(Component.text("§l§6Relíquia do Arco - Sniper\n§r§0Efeitos:\nNa mão: Visão noturna e invisibilidade\nNo ataque: A velocidade da flecha 100 vezes mais rápida\nHabilidade: Não precisa de flechas"));

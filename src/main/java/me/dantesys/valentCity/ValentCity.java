@@ -18,7 +18,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.*;
 
-
 public final class ValentCity extends JavaPlugin{
     FileConfiguration config = getConfig();
     @Override
@@ -59,20 +58,24 @@ public final class ValentCity extends JavaPlugin{
                             player.getInventory().addItem(Reliquias.poseidon);
                             config.set("reliquia.vento",jg);
                             break;
+                        case "ARCO":
+                            player.getInventory().addItem(Reliquias.arco);
+                            config.set("reliquia.arco",jg);
+                            break;
+                        case "FARMER":
+                            player.getInventory().addItem(Reliquias.farmer);
+                            config.set("reliquia.farmer",jg);
+                            break;
+                        case "MARRETA":
+                            player.getInventory().addItem(Reliquias.marreta);
+                            config.set("reliquia.marreta",jg);
+                            break;
                     }
                     return Command.SINGLE_SUCCESS;
                 })).build(),
                 "Comando para receber as reliquias",
                 List.of("an-alias"));
         });
-        NamespacedKey key_arc1 = new NamespacedKey(this, "ARC1");
-        ItemStack arco1 = new ItemStack(Reliquias.arco_modelo1);
-        NamespacedKey key_arc2 = new NamespacedKey(this, "ARC2");
-        ItemStack arco2 = new ItemStack(Reliquias.arco_modelo2);
-        NamespacedKey key_far1 = new NamespacedKey(this, "FAR1");
-        ItemStack farm1 = new ItemStack(Reliquias.farm_modelo1);
-        NamespacedKey key_far2 = new NamespacedKey(this, "FAR2");
-        ItemStack farm2 = new ItemStack(Reliquias.farm_modelo2);
         NamespacedKey key_pic1 = new NamespacedKey(this, "PIC1");
         ItemStack pick1 = new ItemStack(Reliquias.picareta_md1);
         NamespacedKey key_pic2 = new NamespacedKey(this, "PIC2");
@@ -95,10 +98,6 @@ public final class ValentCity extends JavaPlugin{
         ItemStack fen2 = new ItemStack(Reliquias.fenix2);
         NamespacedKey key_bk = new NamespacedKey(this, "BKINFO");
         ItemStack bk = new ItemStack(Reliquias.livro);
-        ShapelessRecipe arco1_recipe = new ShapelessRecipe(key_arc1,arco1);
-        ShapelessRecipe arco2_recipe = new ShapelessRecipe(key_arc2,arco2);
-        ShapelessRecipe farm1_recipe = new ShapelessRecipe(key_far1,farm1);
-        ShapelessRecipe farm2_recipe = new ShapelessRecipe(key_far2,farm2);
         ShapelessRecipe pick1_recipe = new ShapelessRecipe(key_pic1,pick1);
         ShapelessRecipe pick2_recipe = new ShapelessRecipe(key_pic2,pick2);
         ShapelessRecipe pis1_recipe = new ShapelessRecipe(key_pis1,pis1);
@@ -110,10 +109,6 @@ public final class ValentCity extends JavaPlugin{
         ShapelessRecipe fen1_recipe = new ShapelessRecipe(key_fen1,fen1);
         ShapelessRecipe fen2_recipe = new ShapelessRecipe(key_fen2,fen2);
         ShapelessRecipe bk_recipe = new ShapelessRecipe(key_bk,bk);
-        arco1_recipe.addIngredient(Reliquias.arco_modelo2);
-        arco2_recipe.addIngredient(Reliquias.arco_modelo1);
-        farm1_recipe.addIngredient(Reliquias.farm_modelo2);
-        farm2_recipe.addIngredient(Reliquias.farm_modelo1);
         pick1_recipe.addIngredient(Reliquias.picareta_md2);
         pick2_recipe.addIngredient(Reliquias.picareta_md1);
         pis1_recipe.addIngredient(Reliquias.pisante_md2);
@@ -125,10 +120,6 @@ public final class ValentCity extends JavaPlugin{
         fen1_recipe.addIngredient(Reliquias.fenix2);
         fen2_recipe.addIngredient(Reliquias.fenix1);
         bk_recipe.addIngredient(Material.WRITTEN_BOOK);
-        getServer().addRecipe(arco1_recipe);
-        getServer().addRecipe(arco2_recipe);
-        getServer().addRecipe(farm1_recipe);
-        getServer().addRecipe(farm2_recipe);
         getServer().addRecipe(pick1_recipe);
         getServer().addRecipe(pick2_recipe);
         getServer().addRecipe(pis1_recipe);
@@ -148,14 +139,11 @@ public final class ValentCity extends JavaPlugin{
         getServer().getPluginManager().registerEvents(new VentoEvent(), this);
         //
         getServer().getPluginManager().registerEvents(new PicaretaEvent(), this);
-        getServer().getPluginManager().registerEvents(new ArcoEvent(), this);
-        getServer().getPluginManager().registerEvents(new FazendeiroEvent(), this);
         getServer().getPluginManager().registerEvents(new MagoEvent(), this);
         getServer().getPluginManager().registerEvents(new CrossbowEvent(), this);
         getServer().getPluginManager().registerEvents(new DomadorEvent(), this);
         getServer().getPluginManager().registerEvents(new PisanteEvent(), this);
         getServer().getPluginManager().registerEvents(new EscudoEvent(), this);
-        getServer().getPluginManager().registerEvents(new MarretaEvent(), this);
         getServer().getPluginManager().registerEvents(new CapaceteEvent(), this);
         getServer().getPluginManager().registerEvents(new PescadorEvent(), this);
         getServer().getPluginManager().registerEvents(new PeitoralEvent(), this);
@@ -172,6 +160,9 @@ public final class ValentCity extends JavaPlugin{
         config.addDefault("reliquia.spy", "");
         config.addDefault("reliquia.poseidon", "");
         config.addDefault("reliquia.vento", "");
+        config.addDefault("reliquia.arco", "");
+        config.addDefault("reliquia.farmer", "");
+        config.addDefault("reliquia.marreta", "");
         config.options().copyDefaults(true);
         saveConfig();
         getServer().getConsoleSender().sendMessage("§2[Valent City]: Plugin Ativado!");

@@ -1,22 +1,25 @@
 package me.dantesys.valentCity.events;
 
+import me.dantesys.valentCity.MobList;
 import me.dantesys.valentCity.Temporizador;
 import me.dantesys.valentCity.ValentCity;
 import me.dantesys.valentCity.items.Reliquias;
+import net.kyori.adventure.text.Component;
 import org.bukkit.*;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Random;
 
 public class SpecialEvent implements Listener {
@@ -155,6 +158,18 @@ public class SpecialEvent implements Listener {
                     });
                     timer.scheduleTimer(1L);
                 }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.spy)){
+                    GameMode gm = player.getGameMode();
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                            ()->{
+                                player.sendActionBar(Component.text("Modo Ghost Ativado!"));
+                                player.setGameMode(GameMode.SPECTATOR);
+                            },
+                            ()->player.setGameMode(gm),
+                            (t)->player.sendActionBar(Component.text("Modo Ghost acaba em "+(t.getSegundosRestantes())+" segundos"))
+                    );
+                    timer.scheduleTimer(20L);
+                }
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.poseidon)){
                     World w = event.getPlayer().getWorld();
                     w.setStorm(true);
@@ -217,6 +232,83 @@ public class SpecialEvent implements Listener {
                         }
                     });
                     timer.scheduleTimer(1L);
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.arco)){
+                    PlayerInventory pinv = player.getInventory();
+                    Arrow arrow = player.launchProjectile(Arrow.class);
+                    arrow.setCritical(true);
+                    arrow.setGlowing(true);
+                    arrow.setColor(Color.YELLOW);
+                    Vector vec = player.getLocation().getDirection();
+                    arrow.setVelocity(vec.multiply(10000));
+                    if(pinv.contains(Material.TNT)){
+                        int slot = pinv.first(Material.TNT);
+                        ItemStack tnt = pinv.getItem(slot);
+                        if(tnt != null){
+                            int qtd = tnt.getAmount();
+                            pinv.remove(tnt);
+                            arrow.setMetadata("explosive",new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),(double) qtd));
+                            event.setCancelled(true);
+                        }
+                    }else{
+                        arrow.setMetadata("sniper",new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),(double) 10));
+                        event.setCancelled(true);
+                    }
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.farmer)){
+                    final int finalRange = 15;
+                    final Location location = player.getLocation();
+                    final World world = player.getWorld();
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                            ()->{
+                            },()-> {
+                    },(t)->{
+                        double area = (double) finalRange /(t.getSegundosRestantes());
+                        for (double i = 0; i <= 2*Math.PI*area; i += 0.05) {
+                            double x = (area * Math.cos(i)) + location.getX();
+                            double z = (location.getZ() + area * Math.sin(i));
+                            Location particle = new Location(world, x, location.getY() + 1, z);
+                            world.spawnParticle(Particle.EGG_CRACK,particle,1);
+                        }
+                        Collection<Entity> pressf = location.getWorld().getNearbyEntities(location,area,2,area);
+                        while(pressf.iterator().hasNext()){
+                            Entity surdo = pressf.iterator().next();
+                            if(surdo instanceof LivingEntity vivo){
+                                if(!(vivo instanceof Player)){
+                                    Location legg = vivo.getLocation();
+                                    World wegg = vivo.getWorld();
+                                    ItemStack item = new ItemStack(Objects.requireNonNull(MobList.getEggType(vivo)).getMaterial());
+                                    String nome = vivo.getName();
+                                    ItemMeta meta = item.getItemMeta();
+                                    meta.displayName(Component.text(nome));
+                                    item.setItemMeta(meta);
+                                    vivo.remove();
+                                    wegg.dropItem(legg, item);
+                                }
+                            }
+                            pressf.remove(surdo);
+                        }
+                    });
+                    timer.scheduleTimer(1L);
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.marreta)){
+                    Vector vec = player.getEyeLocation().getDirection();
+                    if(player.getWorld().getEnvironment().equals(World.Environment.NORMAL)){
+                        WindCharge vento = player.launchProjectile(WindCharge.class);
+                        vento.setGlowing(true);
+                        vento.setMetadata("marreta",new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),(double) 5));
+                        vento.setVelocity(vec.multiply(2));
+                    }else if(player.getWorld().getEnvironment().equals(World.Environment.NETHER)){
+                        Fireball vento = player.launchProjectile(Fireball.class);
+                        vento.setGlowing(true);
+                        vento.setMetadata("marreta",new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),(double) 5));
+                        vento.setVelocity(vec.multiply(2));
+                    }else if(player.getWorld().getEnvironment().equals(World.Environment.THE_END)){
+                        DragonFireball vento = player.launchProjectile(DragonFireball.class);
+                        vento.setGlowing(true);
+                        vento.setMetadata("marreta",new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),(double) 5));
+                        vento.setVelocity(vec.multiply(2));
+                    }
                 }
             }
             player.setMetadata("specialdown", new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),60));

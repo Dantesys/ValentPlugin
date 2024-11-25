@@ -6,13 +6,11 @@ import me.dantesys.valentCity.items.Reliquias;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -20,39 +18,6 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.*;
 
 public class ReliquiasEvent implements Listener {
-    FileConfiguration config = ValentCity.getPlugin(ValentCity.class).getConfig();
-    @EventHandler
-    public void aumento(PlayerItemConsumeEvent event){
-        Player player = event.getPlayer();
-        ItemStack is = event.getItem();
-        if(is.isSimilar(Reliquias.power)){
-            double dano = Objects.requireNonNull(player.getAttribute(Attribute.ATTACK_DAMAGE)).getValue();
-            double limite = config.getDouble("limite.dano");
-            if(dano+1>limite){
-                player.sendActionBar(Component.text("Sem efeito, você atingiu o limite"));
-                return;
-            }
-            double armor = Objects.requireNonNull(player.getAttribute(Attribute.ARMOR)).getValue();
-            double armortoug = Objects.requireNonNull(player.getAttribute(Attribute.ARMOR_TOUGHNESS)).getValue();
-            Objects.requireNonNull(player.getAttribute(Attribute.ATTACK_DAMAGE)).setBaseValue(dano+1);
-            Objects.requireNonNull(player.getAttribute(Attribute.ARMOR)).setBaseValue(armor+1);
-            Objects.requireNonNull(player.getAttribute(Attribute.ARMOR_TOUGHNESS)).setBaseValue(armortoug+1);
-            player.sendActionBar(Component.text("Força: "+dano));
-        }else if(is.isSimilar(Reliquias.life)){
-            double vida = Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).getValue();
-            double limite = config.getDouble("limite.vida");
-            if(vida+1>limite){
-                player.sendActionBar(Component.text("Sem efeito, você atingiu o limite"));
-                return;
-            }
-            double abs = Objects.requireNonNull(player.getAttribute(Attribute.MAX_ABSORPTION)).getValue();
-            double oxy = Objects.requireNonNull(player.getAttribute(Attribute.OXYGEN_BONUS)).getValue();
-            Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).setBaseValue(vida+1);
-            Objects.requireNonNull(player.getAttribute(Attribute.MAX_ABSORPTION)).setBaseValue(abs+1);
-            Objects.requireNonNull(player.getAttribute(Attribute.OXYGEN_BONUS)).setBaseValue(oxy+1);
-            player.sendActionBar(Component.text("Vida: "+vida));
-        }
-    }
     @EventHandler
     public void morreu(EntityDeathEvent e) {
         Entity dead = e.getEntity();
@@ -83,6 +48,17 @@ public class ReliquiasEvent implements Listener {
             if(flecha.hasMetadata("magic")) {
                 double damage = flecha.getMetadata("magic").getFirst().asDouble();
                 event.setDamage(event.getDamage()+damage);
+            }
+            if(flecha.hasMetadata("sniper")) {
+                double damage = flecha.getMetadata("sniper").getFirst().asDouble();
+                event.setDamage(event.getDamage()*damage);
+            }
+            if(flecha.hasMetadata("explosive")) {
+                double damage = flecha.getMetadata("explosive").getFirst().asDouble();
+                Location l = event.getEntity().getLocation();
+                World w = event.getEntity().getWorld();
+                float power = (float) (damage*4);
+                w.createExplosion(l,power,false,false);
             }
         }
         if(event.getDamager() instanceof Snowball bola) {
@@ -125,6 +101,13 @@ public class ReliquiasEvent implements Listener {
                     event.getHitBlock().setType(Material.BUDDING_AMETHYST);
                     event.getEntity().remove();
                 }
+            }
+            if(flecha.hasMetadata("explosive") && event.getHitBlock() != null) {
+                double damage = flecha.getMetadata("explosive").getFirst().asDouble();
+                Location l = event.getHitBlock().getLocation();
+                World w = event.getHitBlock().getWorld();
+                float power = (float) (damage*4);
+                w.createExplosion(l,power,false,false);
             }
         }
     }

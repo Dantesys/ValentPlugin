@@ -45,10 +45,16 @@ public class TickEvent implements Listener {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.DOLPHINS_GRACE,60,0));
                 }
                 if(pinv.contains(Reliquias.vento))player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_FALLING,60,0));
+                if(pinv.contains(Reliquias.arco))player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,60,0));
+                if(pinv.contains(Reliquias.farmer))player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,60,0));
+                if(pinv.contains(Reliquias.marreta))player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,0));
                 //NA MAO
                 ItemStack item = pinv.getItemInMainHand();
-                if(item.isSimilar(Reliquias.guerreiro)) player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,0));
-                if(item.isSimilar(Reliquias.ceifador)) player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,60,0));
+                ItemStack item2 = pinv.getItemInOffHand();
+                if(item.isSimilar(Reliquias.guerreiro) || item2.isSimilar(Reliquias.guerreiro)) player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,0));
+                if(item.isSimilar(Reliquias.ceifador) || item2.isSimilar(Reliquias.ceifador)) player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,60,0));
+                if(item.isSimilar(Reliquias.arco) || item2.isSimilar(Reliquias.arco)) player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY,60,0));
+                if(item.isSimilar(Reliquias.farmer) || item2.isSimilar(Reliquias.farmer)) player.addPotionEffect(new PotionEffect(PotionEffectType.HERO_OF_THE_VILLAGE,60,5));
             });
 
         }

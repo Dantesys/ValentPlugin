@@ -6,5 +6,8 @@ public enum ReliquiaType {
     TOTEM,
     SPY,
     POSEIDON,
-    VENTO
+    VENTO,
+    ARCO,
+    FARMER,
+    MARRETA
 }
