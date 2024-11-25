@@ -111,14 +111,6 @@ public class ReliquiasEvent implements Listener {
             }
         }
     }
-    public static void limparEfeito(Player player){
-        for (PotionEffect effect : player.getActivePotionEffects()){
-            if(effect.getDuration()<=-1){
-                player.removePotionEffect(effect.getType());
-            }
-        }
-        Objects.requireNonNull(player.getAttribute(Attribute.SCALE)).setBaseValue(1);
-    }
     public static void efeitos(LivingEntity toma, boolean bom, int tempo, int power){
         if(bom){
             toma.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,tempo,power));

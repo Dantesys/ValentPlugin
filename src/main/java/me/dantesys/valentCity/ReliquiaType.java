@@ -9,5 +9,6 @@ public enum ReliquiaType {
     VENTO,
     ARCO,
     FARMER,
-    MARRETA
+    MARRETA,
+    BESTA
 }

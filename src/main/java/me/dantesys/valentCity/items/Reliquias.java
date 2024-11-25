@@ -33,9 +33,8 @@ public class Reliquias {
     public static ItemStack arco;
     public static ItemStack farmer;
     public static ItemStack marreta;
+    public static ItemStack besta;
     //
-    public static ItemStack crossbowmd1;
-    public static ItemStack crossbowmd2;
     public static ItemStack picareta_md1;
     public static ItemStack picareta_md2;
     public static ItemStack domador;
@@ -58,8 +57,6 @@ public class Reliquias {
     public static ItemStack fenix2;
     //copia (1 - players 2 - mobs), dragão
     public static void init() {
-        createCrossbowmd1();
-        createCrossbowmd2();
         createPick1();
         createPick2();
         createDomador();
@@ -90,6 +87,7 @@ public class Reliquias {
         createPoseidon();
         createVento();
         createMarreta();
+        createBesta();
     }
     private static void createGuerreiro(){
         ItemStack item = new ItemStack(Material.NETHERITE_SWORD,1);
@@ -273,43 +271,25 @@ public class Reliquias {
         item.setItemMeta(meta);
         marreta = item;
     }
-    private static void createCrossbowmd1() {
+    private static void createBesta() {
         ItemStack item = new ItemStack(Material.CROSSBOW, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Crossbow (1)"));
+        meta.displayName(Component.text("§6Relíquia da Besta"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato misterioso"));
-        loreitem.add(Component.text("§7capaz de disparar"));
-        loreitem.add(Component.text("§7flechas misteriosas"));
-        loreitem.add(Component.text("§7Modelo: AOE"));
+        loreitem.add(Component.text("§7Passivo: Resistencia"));
+        loreitem.add(Component.text("§7Ativo: Speed"));
+        loreitem.add(Component.text("§7Special: Minigun"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
+        meta.setCustomModelData(1);
         meta.addEnchant(Enchantment.MULTISHOT,50,true);
         meta.addEnchant(Enchantment.PIERCING,10,true);
-        meta.addEnchant(Enchantment.QUICK_CHARGE,3,true);
+        meta.addEnchant(Enchantment.QUICK_CHARGE,5,true);
+        meta.addEnchant(Enchantment.POWER,10,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
-        crossbowmd1 = item;
-    }
-    private static void createCrossbowmd2() {
-        ItemStack item = new ItemStack(Material.CROSSBOW, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Crossbow (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato misterioso"));
-        loreitem.add(Component.text("§7capaz de disparar"));
-        loreitem.add(Component.text("§7flechas misteriosas"));
-        loreitem.add(Component.text("§7Modelo: Focus"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.MULTISHOT,50,true);
-        meta.addEnchant(Enchantment.PIERCING,10,true);
-        meta.addEnchant(Enchantment.QUICK_CHARGE,3,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        crossbowmd2 = item;
+        besta = item;
     }
     private static void createPick1() {
         ItemStack item = new ItemStack(Material.NETHERITE_PICKAXE, 1);
@@ -700,10 +680,10 @@ public class Reliquias {
         meta.setAuthor("O Explorador");
         meta.displayName(Component.text("§6Manual das Reliquias"));
         List<Component> pages = new ArrayList<>();
-        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento\n(7) - Arco\n(8) - Farmer\n(9) - Marreta"));
+        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento\n(7) - Arco\n(8) - Farmer\n(9) - Marreta\n(10) - Besta"));
         pages.add(Component.text("§r§0Passivo é quando o item está no invetario\nAtivo quando o jogador está segurando o item na mão principal\nPara usar o special precisa está agachado e usar a reliquia, no caso de armadura só está com ela equipada!"));
         pages.add(Component.text("§l§6Relíquia do Guerreiro\n§r§0Special:\nUm corte especial que atravessa blocos chega até 50 blocos de distância e causa 20 de dano bruto por hit!"));
-        pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Special:\nUma ataque especial que atravessa blocos chega até 50 blocos de distância que tem chance de 1% de transformar seu alvo em um totem ou tirar 50% de vida do alvo!\nUltra-Special (Reque totem para ativar):Ao gastar o totem envia um ataque que mata a primeira entidade que achar pelo caminho!"));
+        pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Special:\nUma ataque especial que atravessa blocos chega até 50 blocos de distância que tem chance de 1% de transformar seu alvo em um totem ou 99% de tirar 50% de vida do alvo!\nUltra-Special (Reque totem para ativar):Ao gastar o totem envia um ataque que mata a primeira entidade que achar pelo caminho!"));
         pages.add(Component.text("§l§6Relíquia do Spy\n§r§0Special: Entra no modo espectador por 10 segundos!\n"));
         pages.add(Component.text("§l§6Relíquia do Totem\n§r§0Special:\nUma fumaça paralizante que dá slow 5 nas entidades proxímas!"));
         pages.add(Component.text("§l§6Relíquia do Poseidon\n§r§0Special:\nInicia uma tempestade de raios!"));
@@ -711,12 +691,9 @@ public class Reliquias {
         pages.add(Component.text("§l§6Relíquia do Arco\n§r§0Special:\nUma flecha que voa mais rapido que uma bala\nUltra-Specual (Reque tnt no inventario): Dispara um flecha rápida que explode no contato, a força da explosão é de no minimo 1 tnt a 64 tnt o máximo\nAVISO A EXPLOSÃO PODE TAMBÉM AFETA O ATIRADOR SE ESTIVER PERTO!"));
         pages.add(Component.text("§l§6Relíquia do Farmer\n§r§0Special:\nTransforma todos os mobs próximos num raio de 15 blocos em spawn egg"));
         pages.add(Component.text("§l§6Relíquia da Marreta\n§r§0Special:\nNo overworld dispara uma rajada de vento, no nether um bola de fogo e no end bafo do dragão"));
+        pages.add(Component.text("§l§6Relíquia da Besta\n§r§0Special:\nDispara 100 flechas quase instananeamente!"));
         pages.add(Component.text("§r§0Reliquias:\n(1) - Ceifador\n(2) - Guerreiro\n(3) - Infinidade\n(4) - Espião\n(5) - Tridente\n(6) - Vento\n(7) - Arco\n(8) - Fazendeiro\n(9) - Crossbow\n(10) - Mineiro\n(11) - Domador\n(12) - Mago"));
         pages.add(Component.text("§r§0(13) - Pisante\n(14) - Escudo\n(15) - Marreta\n(16) - Capacete\n(17) - Pescador\n(18) - Peitoral\n(19) - Calça\n(20) - Barbaro\n(21) - Escavação\n(22) - Ladrão\n(23) - Hulk\n(24) - Fenix"));
-        pages.add(Component.text("§l§6Relíquia do Arco - Sniper\n§r§0Efeitos:\nNa mão: Visão noturna e invisibilidade\nNo ataque: A velocidade da flecha 100 vezes mais rápida\nHabilidade: Não precisa de flechas"));
-        pages.add(Component.text("§l§6Relíquia do Arco - Minigun\n§r§0Efeitos:\nNa mão: Brilhante e lentidão\nNo ataque: A velocidade de atirar outra flecha é nula\nHabilidade: Não precisa de flechas"));
-        pages.add(Component.text("§l§6Relíquia do Fazendeiro - Agro\n§r§0Efeitos:\nNa mão: Saturação e Sorte\nNo ataque: Pode arancar sementes\nHabilidade: Aplica farinha de osso nas plantações, Se com sementes no inventario pode joga-las"));
-        pages.add(Component.text("§l§6Relíquia do Fazendeiro - Pecuário\n§r§0Efeitos:\nNa mão: Velocidade\nNo ataque: Pode capturar o alvo\nHabilidade: Aplica farinha de osso nas plantações"));
         pages.add(Component.text("§l§6Relíquia do Crossbow - AOE\n§r§0Efeitos:\nNa mão: Resistência\nNo ataque: Dispara uma rajada de flechas especiais ao redor do atirador\nHabilidade: -Sem habilidade-"));
         pages.add(Component.text("§l§6Relíquia do Crossbow - Focus\n§r§0Efeitos:\nNa mão: Invisibilidade\nNo ataque: Dispara uma rajada de flechas especiais focada\nHabilidade: -Sem habilidade-"));
         pages.add(Component.text("§l§6Relíquia do Mineiro - Sortudo\n§r§0Efeitos:\nNa mão: Sorte, tamanho de anão e visão noturna\nNo ataque: Pode minerar mobs\nHabilidade: Dispara minerios"));

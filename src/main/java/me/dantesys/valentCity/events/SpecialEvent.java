@@ -310,6 +310,16 @@ public class SpecialEvent implements Listener {
                         vento.setVelocity(vec.multiply(2));
                     }
                 }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.besta)){
+                    Vector vec = player.getEyeLocation().getDirection();
+                    for(int i=0;i<=100;i++){
+                        Arrow flecha = player.launchProjectile(Arrow.class);
+                        flecha.setCritical(true);
+                        flecha.setGlowing(true);
+                        flecha.setColor(Color.YELLOW);
+                        flecha.setVelocity(vec.multiply(10));
+                    }
+                }
             }
             player.setMetadata("specialdown", new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),60));
         }

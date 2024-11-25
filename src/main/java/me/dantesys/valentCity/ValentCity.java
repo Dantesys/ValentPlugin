@@ -70,6 +70,10 @@ public final class ValentCity extends JavaPlugin{
                             player.getInventory().addItem(Reliquias.marreta);
                             config.set("reliquia.marreta",jg);
                             break;
+                        case "BESTA":
+                            player.getInventory().addItem(Reliquias.marreta);
+                            config.set("reliquia.besta",jg);
+                            break;
                     }
                     return Command.SINGLE_SUCCESS;
                 })).build(),
@@ -140,7 +144,6 @@ public final class ValentCity extends JavaPlugin{
         //
         getServer().getPluginManager().registerEvents(new PicaretaEvent(), this);
         getServer().getPluginManager().registerEvents(new MagoEvent(), this);
-        getServer().getPluginManager().registerEvents(new CrossbowEvent(), this);
         getServer().getPluginManager().registerEvents(new DomadorEvent(), this);
         getServer().getPluginManager().registerEvents(new PisanteEvent(), this);
         getServer().getPluginManager().registerEvents(new EscudoEvent(), this);
@@ -163,6 +166,7 @@ public final class ValentCity extends JavaPlugin{
         config.addDefault("reliquia.arco", "");
         config.addDefault("reliquia.farmer", "");
         config.addDefault("reliquia.marreta", "");
+        config.addDefault("reliquia.besta", "");
         config.options().copyDefaults(true);
         saveConfig();
         getServer().getConsoleSender().sendMessage("§2[Valent City]: Plugin Ativado!");
