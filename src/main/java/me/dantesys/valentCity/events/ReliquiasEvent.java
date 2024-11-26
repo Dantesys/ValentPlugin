@@ -1,24 +1,25 @@
 package me.dantesys.valentCity.events;
 
-import me.dantesys.valentCity.Temporizador;
+import io.papermc.paper.event.player.PlayerShieldDisableEvent;
 import me.dantesys.valentCity.ValentCity;
 import me.dantesys.valentCity.items.Reliquias;
-import net.kyori.adventure.text.Component;
 import org.bukkit.*;
-import org.bukkit.attribute.Attribute;
+import org.bukkit.block.Block;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.*;
-import org.bukkit.event.player.*;
-import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.util.Vector;
 
-import java.util.*;
 
 public class ReliquiasEvent implements Listener {
-    @EventHandler
+    /*@EventHandler
     public void morreu(EntityDeathEvent e) {
         Entity dead = e.getEntity();
         if (dead instanceof Player pressf) {
@@ -41,14 +42,33 @@ public class ReliquiasEvent implements Listener {
                 p.teleport(event.getTo());
             }
         }
+    }*/
+    @EventHandler
+    public void instamine(PlayerInteractEvent event){
+        Player player = event.getPlayer();
+        PersistentDataContainer container = player.getPersistentDataContainer();
+        if(container.has(ValentCity.getPlugin(ValentCity.class).getHabKey(), PersistentDataType.BOOLEAN)){
+            if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.miner)){
+                if(Boolean.TRUE.equals(container.get(ValentCity.getPlugin(ValentCity.class).getHabKey(), PersistentDataType.BOOLEAN))){
+                    Block bloco = event.getClickedBlock();
+                    if(bloco != null){
+                        Location l = bloco.getLocation();
+                        World w = bloco.getWorld();
+                        Material m = bloco.getType();
+                        w.dropItemNaturally(l,new ItemStack(m));
+                        bloco.setType(Material.AIR);
+                    }
+                }
+            }
+        }
     }
     @EventHandler
     public void ataque(EntityDamageByEntityEvent event) {
         if(event.getDamager() instanceof Arrow flecha) {
-            if(flecha.hasMetadata("magic")) {
+            /*if(flecha.hasMetadata("magic")) {
                 double damage = flecha.getMetadata("magic").getFirst().asDouble();
                 event.setDamage(event.getDamage()+damage);
-            }
+            }*/
             if(flecha.hasMetadata("sniper")) {
                 double damage = flecha.getMetadata("sniper").getFirst().asDouble();
                 event.setDamage(event.getDamage()*damage);
@@ -72,6 +92,40 @@ public class ReliquiasEvent implements Listener {
                 int tempo = fogo.getMetadata("fire").getFirst().asInt();
                 event.getEntity().setFireTicks(event.getEntity().getMaxFreezeTicks()*tempo);
             }
+        }
+        if(event.getEntity() instanceof Player player){
+            PersistentDataContainer container = player.getPersistentDataContainer();
+            if(container.has(ValentCity.getPlugin(ValentCity.class).getHabKey(), PersistentDataType.BOOLEAN)){
+                if(Boolean.TRUE.equals(container.get(ValentCity.getPlugin(ValentCity.class).getHabKey(), PersistentDataType.BOOLEAN))){
+                    event.setDamage(0);
+                }
+            }
+        }
+        if(event.getEntity() instanceof Player player){
+            Entity atacante = event.getDamager();
+            if(atacante instanceof Projectile projetil){
+                if(player.getInventory().getItemInOffHand().isSimilar(Reliquias.escudo) || player.getInventory().getItemInMainHand().isSimilar(Reliquias.escudo)){
+                    event.setCancelled(true);
+                    Vector vec = projetil.getVelocity();
+                    vec.multiply(-1);
+                    projetil.setVelocity(vec);
+                    Projectile revers = player.launchProjectile(projetil.getClass());
+                    projetil.remove();
+                    revers.setVelocity(vec);
+                }
+            }
+            if(player.getInventory().contains(Reliquias.escudo)){
+                double dmg = event.getDamage();
+                event.setDamage(dmg/4);
+            }
+        }
+    }
+    @EventHandler
+    public void defender(PlayerShieldDisableEvent event){
+        Player player = event.getPlayer();
+        if(player.getInventory().getItemInOffHand().isSimilar(Reliquias.escudo)){
+            int cd = event.getCooldown();
+            event.setCooldown(cd/2);
         }
     }
     @EventHandler
@@ -146,24 +200,5 @@ public class ReliquiasEvent implements Listener {
             toma.addPotionEffect(new PotionEffect(PotionEffectType.UNLUCK,tempo,power));
             toma.addPotionEffect(new PotionEffect(PotionEffectType.DARKNESS,tempo,power));
         }
-    }
-    public static void mina(World w, Location l, Player player,boolean meta) {
-        TNTPrimed tnt = w.spawn(l, TNTPrimed.class);
-        tnt.setFuseTicks(10000);
-        tnt.setMetadata("guardiao",new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),meta));
-        tnt.setYield(10);
-        Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class),10,
-                () -> player.sendMessage("Dinamite ativada!"),
-                () -> {
-                    tnt.getLocation().getWorld().createExplosion(tnt.getLocation(),10,false,true);
-                    tnt.remove();
-                },
-                (t) -> {
-                    player.sendActionBar(Component.text("Falta "+ (t.getSegundosRestantes()) + " Segundo para explosão!"));
-                    tnt.customName(Component.text((t.getSegundosRestantes())+"s"));
-                    tnt.setCustomNameVisible(true);
-                }
-        );
-        timer.scheduleTimer(20L);
     }
 }

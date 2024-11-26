@@ -6,6 +6,7 @@ import me.dantesys.valentCity.ValentCity;
 import me.dantesys.valentCity.items.Reliquias;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,6 +15,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
@@ -26,8 +29,10 @@ public class SpecialEvent implements Listener {
     @EventHandler
     public void special(PlayerInteractEvent event){
         Player player = event.getPlayer();
-        if(player.hasMetadata("specialdown")){
-            int tempo = player.getMetadata("specialdown").removeFirst().asInt();
+        PersistentDataContainer conteiner = player.getPersistentDataContainer();
+        if(conteiner.has(ValentCity.getPlugin(ValentCity.class).getKey(), PersistentDataType.INTEGER)){
+            int tempo = conteiner.get(ValentCity.getPlugin(ValentCity.class).getKey(),PersistentDataType.INTEGER);
+            int countdown = 60;
             if(tempo<=0 && player.isSneaking()){
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.guerreiro)){
                     int range = 50;
@@ -320,8 +325,101 @@ public class SpecialEvent implements Listener {
                         flecha.setVelocity(vec.multiply(10));
                     }
                 }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.miner)){
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                            ()->{
+                                player.sendActionBar(Component.text("Modo Instaminer Ativado!"));
+                                conteiner.set(ValentCity.getPlugin(ValentCity.class).getHabKey(),PersistentDataType.BOOLEAN,true);
+                            },
+                            ()->conteiner.set(ValentCity.getPlugin(ValentCity.class).getHabKey(),PersistentDataType.BOOLEAN,false),
+                            (t)->player.sendActionBar(Component.text("Modo Instaminer acaba em "+(t.getSegundosRestantes())+" segundos"))
+                    );
+                    timer.scheduleTimer(20L);
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.barbaro)){
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                            ()->{
+                                player.sendActionBar(Component.text("Last Resource Ativado!"));
+                                conteiner.set(ValentCity.getPlugin(ValentCity.class).getHabKey(),PersistentDataType.BOOLEAN,true);
+                            },
+                            ()->conteiner.set(ValentCity.getPlugin(ValentCity.class).getHabKey(),PersistentDataType.BOOLEAN,false),
+                            (t)->player.sendActionBar(Component.text("Last Resource acaba em "+(t.getSegundosRestantes())+" segundos"))
+                    );
+                    timer.scheduleTimer(20L);
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.peitoral)){
+                    final int finalRange = 10;
+                    final Location location = player.getLocation();
+                    final World world = player.getWorld();
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                            ()->{
+                            },()-> {
+                    },(t)->{
+                        double area = (double) finalRange /(t.getSegundosRestantes());
+                        for (double i = 0; i <= 2*Math.PI*area; i += 0.05) {
+                            double x = (area * Math.cos(i)) + location.getX();
+                            double z = (location.getZ() + area * Math.sin(i));
+                            Location particle = new Location(world, x, location.getY() + 1, z);
+                            world.spawnParticle(Particle.CRIT,particle,1);
+                        }
+                        Collection<Entity> pressf = location.getWorld().getNearbyEntities(location,area,2,area);
+                        while(pressf.iterator().hasNext()){
+                            Entity surdo = pressf.iterator().next();
+                            if(surdo instanceof LivingEntity vivo){
+                                if(vivo instanceof Player p){
+                                    if(p!=player) {
+                                        double armor = Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).getBaseValue();
+                                        Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).setBaseValue(armor - 1);
+                                    }
+                                }else{
+                                    double armor = Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).getBaseValue();
+                                    Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).setBaseValue(armor-1);
+                                }
+                            }
+                            pressf.remove(surdo);
+                        }
+                    });
+                    timer.scheduleTimer(1L);
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.escudo)){
+                    final int finalRange = 50;
+                    final Location location = player.getLocation();
+                    final Vector direction = location.getDirection().normalize();
+                    final double[] tp = {0};
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                            ()->{
+                            },()-> {
+                    },(t)->{
+                        tp[0] = tp[0]+3.4;
+                        double x = direction.getX()*tp[0];
+                        double y = direction.getY()*tp[0]+1.4;
+                        double z = direction.getZ()*tp[0];
+                        location.add(x,y,z);
+                        location.getWorld().spawnParticle(Particle.SONIC_BOOM,location,1,0,0,0,0);
+                        location.getWorld().playSound(location, Sound.ENTITY_WARDEN_SONIC_BOOM,0.5f,0.7f);
+                        Collection<Entity> pressf = location.getWorld().getNearbyEntities(location,2,2,2);
+                        while(pressf.iterator().hasNext()){
+                            Entity surdo = pressf.iterator().next();
+                            if(surdo instanceof LivingEntity vivo){
+                                if(vivo instanceof Player pl){
+                                    if(pl != player){
+                                        vivo.setHealth(0);
+                                    }
+                                }else{
+                                    vivo.setHealth(0);
+                                }
+                            }
+                            pressf.remove(surdo);
+                        }
+                        location.subtract(x,y,z);
+                        if(t.getSegundosRestantes()>finalRange){
+                            t.stop();
+                        }
+                    });
+                    timer.scheduleTimer(1L);
+                }
             }
-            player.setMetadata("specialdown", new FixedMetadataValue(ValentCity.getPlugin(ValentCity.class),60));
+            conteiner.set(ValentCity.getPlugin(ValentCity.class).getKey(),PersistentDataType.INTEGER,countdown);
         }
     }
 }

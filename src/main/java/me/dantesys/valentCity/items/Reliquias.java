@@ -34,21 +34,18 @@ public class Reliquias {
     public static ItemStack farmer;
     public static ItemStack marreta;
     public static ItemStack besta;
+    public static ItemStack miner;
+    public static ItemStack barbaro;
+    public static ItemStack peitoral;
+    public static ItemStack escudo;
     //
-    public static ItemStack picareta_md1;
-    public static ItemStack picareta_md2;
     public static ItemStack domador;
     public static ItemStack mago;
     public static ItemStack pisante_md1;
     public static ItemStack pisante_md2;
-    public static ItemStack escudo_md1;
-    public static ItemStack escudo_md2;
     public static ItemStack capacete;
     public static ItemStack pescador;
-    public static ItemStack peitoral_md1;
-    public static ItemStack peitoral_md2;
     public static ItemStack calca;
-    public static ItemStack machado;
     public static ItemStack escavacao;
     public static ItemStack ladrao;
     public static ItemStack livro;
@@ -57,21 +54,14 @@ public class Reliquias {
     public static ItemStack fenix2;
     //copia (1 - players 2 - mobs), dragão
     public static void init() {
-        createPick1();
-        createPick2();
         createDomador();
         createMago();
         createPis1();
         createPis2();
-        createEsc1();
-        createEsc2();
         createCapacete();
         createPescador();
-        createPeitoral1();
-        createPeitoral2();
         createCalca();
         createEscavacao();
-        createMachado();
         createLadrao();
         createLivro();
         createHulk();
@@ -88,6 +78,10 @@ public class Reliquias {
         createVento();
         createMarreta();
         createBesta();
+        createMiner();
+        createBarbaro();
+        createPeitoral();
+        createEscudo();
     }
     private static void createGuerreiro(){
         ItemStack item = new ItemStack(Material.NETHERITE_SWORD,1);
@@ -291,44 +285,105 @@ public class Reliquias {
         item.setItemMeta(meta);
         besta = item;
     }
-    private static void createPick1() {
+    private static void createMiner() {
         ItemStack item = new ItemStack(Material.NETHERITE_PICKAXE, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Mineiro (1)"));
+        meta.displayName(Component.text("§6Relíquia do Miner"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato feito"));
-        loreitem.add(Component.text("§7pelos anões capaz de"));
-        loreitem.add(Component.text("§7derrubar montanhas"));
-        loreitem.add(Component.text("§7Modelo: Sortudo!"));
+        loreitem.add(Component.text("§7Passivo: Night Vision e remove fadiga"));
+        loreitem.add(Component.text("§7Ativo: Luck, Força e encolhimento"));
+        loreitem.add(Component.text("§7Special: Instamine!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
+        meta.setCustomModelData(1);
         meta.addEnchant(Enchantment.FORTUNE,5,true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
+        meta.addEnchant(Enchantment.SHARPNESS,5,true);
         meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.5, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(BLOCK_INTERACTION_RANGE, new AttributeModifier(BLOCK_INTERACTION_RANGE.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
-        picareta_md1 = item;
+        miner = item;
     }
-    private static void createPick2() {
-        ItemStack item = new ItemStack(Material.NETHERITE_PICKAXE, 1);
+    private static void createBarbaro() {
+        ItemStack item = new ItemStack(Material.NETHERITE_AXE, 1);
         ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Mineiro (2)"));
+        meta.displayName(Component.text("§6Reliquia do Barbaro"));
         List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato feito"));
-        loreitem.add(Component.text("§7pelos anões capaz de"));
-        loreitem.add(Component.text("§7derrubar montanhas"));
-        loreitem.add(Component.text("§7Modelo: Destruidor!"));
+        loreitem.add(Component.text("§7Passia: Speed"));
+        loreitem.add(Component.text("§7Ativa: Força 2"));
+        loreitem.add(Component.text("§7Special: Last Resource!"));
         meta.lore(loreitem);
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.INFINITY,1,true);
-        meta.addEnchant(Enchantment.SILK_TOUCH,1,true);
+        meta.setCustomModelData(1);
+        meta.addAttributeModifier(ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE.getKey(),+10, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED.getKey(),+2, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addAttributeModifier(ENTITY_INTERACTION_RANGE, new AttributeModifier(ENTITY_INTERACTION_RANGE.getKey(),+7, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
         meta.addEnchant(Enchantment.EFFICIENCY,5,true);
-        meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.5, AttributeModifier.Operation.ADD_NUMBER));
+        meta.addEnchant(Enchantment.SILK_TOUCH,1,true);
+        meta.addEnchant(Enchantment.SHARPNESS,5,true);
+        meta.addEnchant(Enchantment.SMITE,5,true);
+        meta.addEnchant(Enchantment.SWEEPING_EDGE,5,true);
+        meta.addEnchant(Enchantment.LOOTING,3,true);
+        meta.addEnchant(Enchantment.FORTUNE,3,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
-        picareta_md2 = item;
+        barbaro = item;
+    }
+    private static void createPeitoral() {
+        ItemStack item = new ItemStack(Material.NETHERITE_CHESTPLATE, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(Component.text("§6Relíquia do Peitoral"));
+        List<Component> loreitem = new ArrayList<>();
+        loreitem.add(Component.text("§7Passivo: Resistencia"));
+        loreitem.add(Component.text("§7Ativo: Asas"));
+        loreitem.add(Component.text("§7Special: No Armor"));
+        meta.lore(loreitem);
+        meta.setRarity(ItemRarity.EPIC);
+        meta.setUnbreakable(true);
+        meta.setCustomModelData(1);
+        meta.setGlider(true);
+        meta.addEnchant(Enchantment.BLAST_PROTECTION,4,true);
+        meta.addEnchant(Enchantment.FIRE_PROTECTION,4,true);
+        meta.addEnchant(Enchantment.PROJECTILE_PROTECTION,4,true);
+        meta.addEnchant(Enchantment.PROTECTION,4,true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        peitoral = item;
+    }
+    private static void createEscudo() {
+        ItemStack item = new ItemStack(Material.SHIELD, 1);
+        ItemMeta meta = item.getItemMeta();
+        BlockStateMeta bmeta = (BlockStateMeta) meta;
+        Banner banner = (Banner) bmeta.getBlockState();
+        banner.setBaseColor(DyeColor.BLACK);
+        banner.update();
+        banner.addPattern(new Pattern(DyeColor.PURPLE, PatternType.BORDER));
+        banner.update();
+        banner.addPattern(new Pattern(DyeColor.PURPLE, PatternType.RHOMBUS));
+        banner.update();
+        banner.addPattern(new Pattern(DyeColor.BLACK, PatternType.FLOWER));
+        banner.update();
+        banner.addPattern(new Pattern(DyeColor.BLACK, PatternType.SQUARE_TOP_LEFT));
+        banner.update();
+        banner.addPattern(new Pattern(DyeColor.BLACK, PatternType.SQUARE_BOTTOM_RIGHT));
+        banner.update();
+        bmeta.setBlockState(banner);
+        bmeta.displayName(Component.text("§6Relíquia do Escudo"));
+        List<Component> loreitem = new ArrayList<>();
+        loreitem.add(Component.text("§7Passivo: Amplificação"));
+        loreitem.add(Component.text("§7Ativo: Reversão"));
+        loreitem.add(Component.text("§7Special: Vazio Roxo"));
+        bmeta.lore(loreitem);
+        bmeta.setRarity(ItemRarity.EPIC);
+        bmeta.setUnbreakable(true);
+        bmeta.addEnchant(Enchantment.THORNS,5,true);
+        bmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(bmeta);
+        escudo = item;
     }
     private static void createDomador() {
         ItemStack item = new ItemStack(Material.STICK, 1);
@@ -418,55 +473,6 @@ public class Reliquias {
         item.setItemMeta(meta);
         pisante_md2 = item;
     }
-    private static void createEsc1() {
-        ItemStack item = new ItemStack(Material.SHIELD, 1);
-        ItemMeta meta = item.getItemMeta();
-        BlockStateMeta bmeta = (BlockStateMeta) meta;
-        Banner banner = (Banner) bmeta.getBlockState();
-        banner.setBaseColor(DyeColor.RED);
-        banner.addPattern(new Pattern(DyeColor.WHITE, PatternType.RHOMBUS));
-        banner.addPattern(new Pattern(DyeColor.RED, PatternType.CIRCLE));
-        banner.addPattern(new Pattern(DyeColor.RED, PatternType.SQUARE_TOP_RIGHT));
-        banner.addPattern(new Pattern(DyeColor.RED, PatternType.SQUARE_BOTTOM_LEFT));
-        banner.update();
-        bmeta.setBlockState(banner);
-        bmeta.displayName(Component.text("§6Relíquia do Escudo (1)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato feito"));
-        loreitem.add(Component.text("§7pelos magos anciões"));
-        loreitem.add(Component.text("§7Modelo: Reversão!"));
-        bmeta.lore(loreitem);
-        bmeta.setRarity(ItemRarity.EPIC);
-        bmeta.setUnbreakable(true);
-        bmeta.addEnchant(Enchantment.THORNS,5,true);
-        bmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(bmeta);
-        escudo_md1 = item;
-    }
-    private static void createEsc2() {
-        ItemStack item = new ItemStack(Material.SHIELD, 1);
-        ItemMeta meta = item.getItemMeta();
-        BlockStateMeta bmeta = (BlockStateMeta) meta;
-        Banner banner = (Banner) bmeta.getBlockState();
-        banner.setBaseColor(DyeColor.BLUE);
-        banner.addPattern(new Pattern(DyeColor.LIGHT_BLUE, PatternType.RHOMBUS));
-        banner.addPattern(new Pattern(DyeColor.BLUE, PatternType.FLOWER));
-        banner.addPattern(new Pattern(DyeColor.LIGHT_BLUE, PatternType.CIRCLE));
-        banner.addPattern(new Pattern(DyeColor.BLUE, PatternType.GLOBE));
-        banner.update();
-        bmeta.setBlockState(banner);
-        bmeta.displayName(Component.text("§6Relíquia do Escudo (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um artefato feito"));
-        loreitem.add(Component.text("§7pelos magos anciões"));
-        loreitem.add(Component.text("§7Modelo: Amplificação!"));
-        bmeta.lore(loreitem);
-        bmeta.setRarity(ItemRarity.EPIC);
-        bmeta.setUnbreakable(true);
-        bmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(bmeta);
-        escudo_md2 = item;
-    }
     private static void createCapacete() {
         ItemStack item = new ItemStack(Material.NETHERITE_HELMET, 1);
         ItemMeta meta = item.getItemMeta();
@@ -505,43 +511,6 @@ public class Reliquias {
         item.setItemMeta(meta);
         pescador = item;
     }
-    private static void createPeitoral1() {
-        ItemStack item = new ItemStack(Material.NETHERITE_CHESTPLATE, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Peitoral (1)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Uma armadura"));
-        loreitem.add(Component.text("§7capaz de roubar"));
-        loreitem.add(Component.text("§7vida dos mobs proxímos!"));
-        loreitem.add(Component.text("§7Modelo: Invencivel"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.BLAST_PROTECTION,4,true);
-        meta.addEnchant(Enchantment.FIRE_PROTECTION,4,true);
-        meta.addEnchant(Enchantment.PROJECTILE_PROTECTION,4,true);
-        meta.addEnchant(Enchantment.PROTECTION,4,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        meta.addAttributeModifier(SCALE, new AttributeModifier(SCALE.getKey(),-0.15, AttributeModifier.Operation.ADD_NUMBER));
-        item.setItemMeta(meta);
-        peitoral_md1 = item;
-    }
-    private static void createPeitoral2() {
-        ItemStack item = new ItemStack(Material.ELYTRA, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia do Peitoral (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Uma armadura"));
-        loreitem.add(Component.text("§7capaz voar!"));
-        loreitem.add(Component.text("§7Modelo: Fly"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.addAttributeModifier(Attribute.SAFE_FALL_DISTANCE, new AttributeModifier(Attribute.SAFE_FALL_DISTANCE.getKey(),10, AttributeModifier.Operation.ADD_NUMBER));
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        peitoral_md2 = item;
-    }
     private static void createCalca() {
         ItemStack item = new ItemStack(Material.NETHERITE_LEGGINGS, 1);
         ItemMeta meta = item.getItemMeta();
@@ -561,28 +530,6 @@ public class Reliquias {
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         item.setItemMeta(meta);
         calca = item;
-    }
-    private static void createMachado() {
-        ItemStack item = new ItemStack(Material.NETHERITE_AXE, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Reliquia do Barbaro"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Um machado com"));
-        loreitem.add(Component.text("§7uma pecualidade"));
-        loreitem.add(Component.text("§7de guardar fúria"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
-        meta.addEnchant(Enchantment.EFFICIENCY,5,true);
-        meta.addEnchant(Enchantment.SILK_TOUCH,1,true);
-        meta.addEnchant(Enchantment.SHARPNESS,5,true);
-        meta.addEnchant(Enchantment.SMITE,5,true);
-        meta.addEnchant(Enchantment.LOOTING,3,true);
-        meta.addEnchant(Enchantment.FORTUNE,3,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        machado = item;
     }
     private static void createEscavacao() {
         ItemStack item = new ItemStack(Material.NETHERITE_SHOVEL, 1);
@@ -680,7 +627,8 @@ public class Reliquias {
         meta.setAuthor("O Explorador");
         meta.displayName(Component.text("§6Manual das Reliquias"));
         List<Component> pages = new ArrayList<>();
-        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento\n(7) - Arco\n(8) - Farmer\n(9) - Marreta\n(10) - Besta"));
+        pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento\n(7) - Arco\n(8) - Farmer\n(9) - Marreta\n(10) - Besta\n(11) - Miner\n(12) - Barbaro"));
+        pages.add(Component.text("§r§0(13) - Peitoral\n(14) - Escudo"));
         pages.add(Component.text("§r§0Passivo é quando o item está no invetario\nAtivo quando o jogador está segurando o item na mão principal\nPara usar o special precisa está agachado e usar a reliquia, no caso de armadura só está com ela equipada!"));
         pages.add(Component.text("§l§6Relíquia do Guerreiro\n§r§0Special:\nUm corte especial que atravessa blocos chega até 50 blocos de distância e causa 20 de dano bruto por hit!"));
         pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Special:\nUma ataque especial que atravessa blocos chega até 50 blocos de distância que tem chance de 1% de transformar seu alvo em um totem ou 99% de tirar 50% de vida do alvo!\nUltra-Special (Reque totem para ativar):Ao gastar o totem envia um ataque que mata a primeira entidade que achar pelo caminho!"));
@@ -692,25 +640,19 @@ public class Reliquias {
         pages.add(Component.text("§l§6Relíquia do Farmer\n§r§0Special:\nTransforma todos os mobs próximos num raio de 15 blocos em spawn egg"));
         pages.add(Component.text("§l§6Relíquia da Marreta\n§r§0Special:\nNo overworld dispara uma rajada de vento, no nether um bola de fogo e no end bafo do dragão"));
         pages.add(Component.text("§l§6Relíquia da Besta\n§r§0Special:\nDispara 100 flechas quase instananeamente!"));
-        pages.add(Component.text("§r§0Reliquias:\n(1) - Ceifador\n(2) - Guerreiro\n(3) - Infinidade\n(4) - Espião\n(5) - Tridente\n(6) - Vento\n(7) - Arco\n(8) - Fazendeiro\n(9) - Crossbow\n(10) - Mineiro\n(11) - Domador\n(12) - Mago"));
+        pages.add(Component.text("§l§6Relíquia do Miner\n§r§0Special:\nAo ativar você é capas de quebrar qualquer bloco instantaneamente durante 10 segundos!"));
+        pages.add(Component.text("§l§6Relíquia do Barbaro\n§r§0Special:\nAo ativar você fica invuneravel por 10 segundos!"));
+        pages.add(Component.text("§l§6Relíquia do Peitoral\n§r§0Special:\nAo ativar qualquer mob próximo vai perde 1 pontos de armadura"));
+        pages.add(Component.text("§l§6Relíquia do Escudo\n§r§0Special:\nAo ativar dispara um ataque que mata tudo na sua frente!"));
         pages.add(Component.text("§r§0(13) - Pisante\n(14) - Escudo\n(15) - Marreta\n(16) - Capacete\n(17) - Pescador\n(18) - Peitoral\n(19) - Calça\n(20) - Barbaro\n(21) - Escavação\n(22) - Ladrão\n(23) - Hulk\n(24) - Fenix"));
-        pages.add(Component.text("§l§6Relíquia do Crossbow - AOE\n§r§0Efeitos:\nNa mão: Resistência\nNo ataque: Dispara uma rajada de flechas especiais ao redor do atirador\nHabilidade: -Sem habilidade-"));
-        pages.add(Component.text("§l§6Relíquia do Crossbow - Focus\n§r§0Efeitos:\nNa mão: Invisibilidade\nNo ataque: Dispara uma rajada de flechas especiais focada\nHabilidade: -Sem habilidade-"));
-        pages.add(Component.text("§l§6Relíquia do Mineiro - Sortudo\n§r§0Efeitos:\nNa mão: Sorte, tamanho de anão e visão noturna\nNo ataque: Pode minerar mobs\nHabilidade: Dispara minerios"));
-        pages.add(Component.text("§l§6Relíquia do Mineiro - Destruidor\n§r§0Efeitos:\nNa mão: Resistência, tamanho de anão e visão noturna\nNo ataque: Pode destruir os mobs\nHabilidade: Dispara explosão que não afeta o mapa"));
         pages.add(Component.text("§l§6Relíquia do Domador\n§r§0Efeitos:\nNa mão: -Sem efeito-\nNo ataque: Pode convocar lobos para atacar o seu alvo, em animais domaveis o deixam domados na hora\nHabilidade: Pode coletar spawner"));
         pages.add(Component.text("§l§6Relíquia do Mago\n§r§0Efeitos:\nNa mão: Aleatório\nNo ataque: Aleatório\nHabilidade: Pode disparar feitiços"));
         pages.add(Component.text("§l§6Relíquia do Pisante - Caminhar\n§r§0Efeitos:\nVelocidade\nHabilidade: Criar campo de desaceleração"));
         pages.add(Component.text("§l§6Relíquia do Pisante - Rocket\n§r§0Efeitos:\nJump Bost e Levitação\nHabilidade: Durante a queda, ganha efeito de queda lente"));
-        pages.add(Component.text("§l§6Relíquia do Escudo - Reversão\n§r§0Efeitos:\n-Sem efeito-\nHabilidade: Qualquer ataque de projetil volta para o atirador"));
-        pages.add(Component.text("§l§6Relíquia do Escudo - Ampificação\n§r§0Efeitos:\n-Sem efeito-\nHabilidade: Impede qualquer mob de se aproximar dele"));
         pages.add(Component.text("§l§6Relíquia da Marreta\n§r§0Efeitos:\nForça e invisibilidade\nHabilidade: Pode disparar uma carga de vento no mundo, bola de fogo no nether e bafo do dragão no end"));
         pages.add(Component.text("§l§6Relíquia do Capacete\n§r§0Efeitos:\nVisão noturna e Respiração aquativa quando esta nadando\nHabilidade: Deixa os outros com inveja (má sorte), pode dispara raio lazer"));
         pages.add(Component.text("§l§6Relíquia do Pescador\n§r§0Efeitos:\nRespiração aquativa e sorte\nHabilidade: Pode transformar mobs em peixes"));
-        pages.add(Component.text("§l§6Relíquia do Peitoral - Invencivel\n§r§0Efeitos:\n-Sem efeito-\nHabilidade: Consegue se curar com os inimigos proximos"));
-        pages.add(Component.text("§l§6Relíquia do Peitoral - Fly\n§r§0Efeitos:\n-Sem efeito-\nHabilidade: Fogetes são infinitos e potentes"));
         pages.add(Component.text("§l§6Relíquia da Calça\n§r§0Efeitos:\n-Sem efeito-\nHabilidade: Quando agacha criar um terremoto"));
-        pages.add(Component.text("§l§6Relíquia do Barbaro\n§r§0Efeitos:\nForça\nHabilidade: Ganha fúria quando é atacado e libera um ataque devastador liberando toda sua fária"));
         pages.add(Component.text("§l§6Relíquia da Escavação\n§r§0Efeitos:\nVisão noturna e pressa\nHabilidade: Pode localizar estruturas 1 Modo de escavação 2-9 Modo de exploração"));
         pages.add(Component.text("§l§6Relíquia do Ladrão\n§r§0Efeitos:\nNa mão: Invisibilidade e Visão Noturna\nHabilidade: Pode roubar itens!"));
         pages.add(Component.text("§l§6Relíquia do Hulk\n§r§0Efeitos:\n+20 pontos de vida, +altura\nHabilidade: Pode esmagar inimigos e o dano aumenta quanto menos vida tiver!"));

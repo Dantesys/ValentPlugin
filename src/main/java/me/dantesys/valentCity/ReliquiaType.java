@@ -10,5 +10,9 @@ public enum ReliquiaType {
     ARCO,
     FARMER,
     MARRETA,
-    BESTA
+    BESTA,
+    MINER,
+    BARBARO,
+    PEITORAL,
+    ESCUDO
 }
