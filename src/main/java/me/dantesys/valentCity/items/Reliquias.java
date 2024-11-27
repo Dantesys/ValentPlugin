@@ -40,6 +40,7 @@ public class Reliquias {
     public static ItemStack escudo;
     public static ItemStack hulk;
     public static ItemStack livro;
+    public static ItemStack fenix;
     /*public static ItemStack domador;
     public static ItemStack mago;
     public static ItemStack pisante_md1;
@@ -48,8 +49,6 @@ public class Reliquias {
     public static ItemStack pescador;
     public static ItemStack escavacao;
     public static ItemStack ladrao;
-    public static ItemStack fenix1;
-    public static ItemStack fenix2;
     //copia (1 - players 2 - mobs), dragão*/
     public static void init() {
         /*createDomador();
@@ -60,8 +59,6 @@ public class Reliquias {
         createPescador();
         createEscavacao();
         createLadrao();
-        createFenix1();
-        createFenix2();
         //*/
         createGuerreiro();
         createCeifador();
@@ -79,6 +76,7 @@ public class Reliquias {
         createEscudo();
         createHulk();
         createLivro();
+        createFenix();
     }
     private static void createGuerreiro(){
         ItemStack item = new ItemStack(Material.NETHERITE_SWORD,1);
@@ -99,6 +97,7 @@ public class Reliquias {
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
         meta.setCustomModelData(1);
+        item.setItemMeta(meta);
         guerreiro = item;
     }
     private static void createCeifador() {
@@ -121,6 +120,7 @@ public class Reliquias {
         meta.setRarity(ItemRarity.EPIC);
         meta.setUnbreakable(true);
         meta.setCustomModelData(2);
+        item.setItemMeta(meta);
         ceifador = item;
     }
     private static void createTotem() {
@@ -175,8 +175,8 @@ public class Reliquias {
         meta.addEnchant(Enchantment.RIPTIDE,5,true);
         meta.addEnchant(Enchantment.SHARPNESS,5,true);
         meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
         meta.setCustomModelData(1);
+        item.setItemMeta(meta);
         poseidon = item;
     }
     private static void createVento() {
@@ -408,6 +408,29 @@ public class Reliquias {
         item.setItemMeta(meta);
         hulk = item;
     }
+    private static void createFenix(){
+        ItemStack item = new ItemStack(Material.NETHERITE_SWORD, 1);
+        ItemMeta meta = item.getItemMeta();
+        meta.displayName(Component.text("§6Relíquia da Fenix"));
+        List<Component> loreitem = new ArrayList<>();
+        loreitem.add(Component.text("§7Passivo: Resistencia a fogo e visão noturna"));
+        loreitem.add(Component.text("§7Ativo: Chama da recuperação"));
+        loreitem.add(Component.text("§7Special: Fly"));
+        loreitem.add(Component.text("§7Ultra-Special: Long Fly"));
+        meta.lore(loreitem);
+        meta.setRarity(ItemRarity.EPIC);
+        meta.setUnbreakable(true);
+        meta.setCustomModelData(3);
+        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
+        meta.addEnchant(Enchantment.FIRE_ASPECT,50,true);
+        meta.addEnchant(Enchantment.LOOTING,3,true);
+        meta.addEnchant(Enchantment.SHARPNESS,5,true);
+        meta.addEnchant(Enchantment.SMITE,5,true);
+        meta.addEnchant(Enchantment.SWEEPING_EDGE,5,true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        item.setItemMeta(meta);
+        fenix = item;
+    }
     /*private static void createDomador() {
         ItemStack item = new ItemStack(Material.STICK, 1);
         ItemMeta meta = item.getItemMeta();
@@ -568,43 +591,7 @@ public class Reliquias {
         item.setItemMeta(meta);
         ladrao = item;
     }
-    private static void createFenix1(){
-        ItemStack item = new ItemStack(Material.FEATHER, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia da Fenix (1)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Uma pena do passaro"));
-        loreitem.add(Component.text("§7mistico a fenix!"));
-        loreitem.add(Component.text("§7Modelo: Pena"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.FIRE_PROTECTION,100,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        fenix1 = item;
-    }
-    private static void createFenix2(){
-        ItemStack item = new ItemStack(Material.NETHERITE_SWORD, 1);
-        ItemMeta meta = item.getItemMeta();
-        meta.displayName(Component.text("§6Relíquia da Fenix (2)"));
-        List<Component> loreitem = new ArrayList<>();
-        loreitem.add(Component.text("§7Uma das garras do passaro"));
-        loreitem.add(Component.text("§7mistico a fenix!"));
-        loreitem.add(Component.text("§7Modelo: Garra"));
-        meta.lore(loreitem);
-        meta.setRarity(ItemRarity.EPIC);
-        meta.setUnbreakable(true);
-        meta.addEnchant(Enchantment.BANE_OF_ARTHROPODS,5,true);
-        meta.addEnchant(Enchantment.FIRE_ASPECT,50,true);
-        meta.addEnchant(Enchantment.LOOTING,3,true);
-        meta.addEnchant(Enchantment.SHARPNESS,5,true);
-        meta.addEnchant(Enchantment.SMITE,5,true);
-        meta.addEnchant(Enchantment.SWEEPING_EDGE,5,true);
-        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        item.setItemMeta(meta);
-        fenix2 = item;
-    }*/
+    */
     private static void createLivro() {
         ItemStack item = new ItemStack(Material.WRITTEN_BOOK, 1);
         BookMeta meta = (BookMeta) item.getItemMeta();
@@ -612,7 +599,7 @@ public class Reliquias {
         meta.displayName(Component.text("§6Manual das Reliquias"));
         List<Component> pages = new ArrayList<>();
         pages.add(Component.text("§r§0Reliquias:\n(1) - Guerreiro\n(2) - Ceifador\n(3) - Totem\n(4) - Espião\n(5) - Poseidon\n(6) - Vento\n(7) - Arco\n(8) - Farmer\n(9) - Marreta\n(10) - Besta\n(11) - Miner\n(12) - Barbaro"));
-        pages.add(Component.text("§r§0(13) - Peitoral\n(14) - Escudo\n(15) - Hulk"));
+        pages.add(Component.text("§r§0(13) - Peitoral\n(14) - Escudo\n(15) - Hulk\n(16) - Fenix"));
         pages.add(Component.text("§r§0Passivo é quando o item está no invetario\nAtivo quando o jogador está segurando o item na mão principal\nPara usar o special precisa está agachado e usar a reliquia, no caso de armadura só está com ela equipada!"));
         pages.add(Component.text("§l§6Relíquia do Guerreiro\n§r§0Special:\nUm corte especial que atravessa blocos chega até 50 blocos de distância e causa 20 de dano bruto por hit!"));
         pages.add(Component.text("§l§6Relíquia do Ceifador\n§r§0Special:\nUma ataque especial que atravessa blocos chega até 50 blocos de distância que tem chance de 1% de transformar seu alvo em um totem ou 99% de tirar 50% de vida do alvo!\nUltra-Special (Reque totem para ativar):Ao gastar o totem envia um ataque que mata a primeira entidade que achar pelo caminho!"));
@@ -623,18 +610,18 @@ public class Reliquias {
         pages.add(Component.text("§l§6Relíquia do Arco\n§r§0Special:\nUma flecha que voa mais rapido que uma bala\nUltra-Specual (Reque tnt no inventario): Dispara um flecha rápida que explode no contato, a força da explosão é de no minimo 1 tnt a 64 tnt o máximo\nAVISO A EXPLOSÃO PODE TAMBÉM AFETA O ATIRADOR SE ESTIVER PERTO!"));
         pages.add(Component.text("§l§6Relíquia do Farmer\n§r§0Special:\nTransforma todos os mobs próximos num raio de 15 blocos em spawn egg"));
         pages.add(Component.text("§l§6Relíquia da Marreta\n§r§0Special:\nNo overworld dispara uma rajada de vento, no nether um bola de fogo e no end bafo do dragão"));
-        pages.add(Component.text("§l§6Relíquia da Besta\n§r§0Special:\nDispara 50 flechas quase instananeamente!"));
+        pages.add(Component.text("§l§6Relíquia da Besta\n§r§0Special:\nDispara flechas rapidamente durante 30 segundos!"));
         pages.add(Component.text("§l§6Relíquia do Miner\n§r§0Special:\nAo ativar você é capas de quebrar qualquer bloco instantaneamente durante 10 segundos!"));
         pages.add(Component.text("§l§6Relíquia do Barbaro\n§r§0Special:\nAo ativar você fica invuneravel por 10 segundos!"));
         pages.add(Component.text("§l§6Relíquia do Peitoral\n§r§0Special:\nAo ativar aumenta 80 pontos de vida durante 30 segundos"));
         pages.add(Component.text("§l§6Relíquia do Escudo\n§r§0Special:\nAo ativar dispara um ataque que mata tudo na sua frente!"));
         pages.add(Component.text("§l§6Relíquia do Hulk\n§r§0Special:\nAo ativar esmaga todos os mob proximos!"));
+        pages.add(Component.text("§l§6Relíquia da Fenix\n§r§0Special:\nLibera o fly do criativo por 20 segundos\nUltra-Special (Reque pena para usar): Aumenta o tempo de fly de no minimo 21 segundo até 84 segundos"));
         /*pages.add(Component.text("§r§0(13) - Pisante\n(14) - Escudo\n(15) - Marreta\n(16) - Capacete\n(17) - Pescador\n(18) - Peitoral\n(19) - Calça\n(20) - Barbaro\n(21) - Escavação\n(22) - Ladrão\n(23) - Hulk\n(24) - Fenix"));
         pages.add(Component.text("§l§6Relíquia do Domador\n§r§0Efeitos:\nNa mão: -Sem efeito-\nNo ataque: Pode convocar lobos para atacar o seu alvo, em animais domaveis o deixam domados na hora\nHabilidade: Pode coletar spawner"));
         pages.add(Component.text("§l§6Relíquia do Mago\n§r§0Efeitos:\nNa mão: Aleatório\nNo ataque: Aleatório\nHabilidade: Pode disparar feitiços"));
         pages.add(Component.text("§l§6Relíquia do Pisante - Caminhar\n§r§0Efeitos:\nVelocidade\nHabilidade: Criar campo de desaceleração"));
         pages.add(Component.text("§l§6Relíquia do Pisante - Rocket\n§r§0Efeitos:\nJump Bost e Levitação\nHabilidade: Durante a queda, ganha efeito de queda lente"));
-        pages.add(Component.text("§l§6Relíquia da Marreta\n§r§0Efeitos:\nForça e invisibilidade\nHabilidade: Pode disparar uma carga de vento no mundo, bola de fogo no nether e bafo do dragão no end"));
         pages.add(Component.text("§l§6Relíquia do Capacete\n§r§0Efeitos:\nVisão noturna e Respiração aquativa quando esta nadando\nHabilidade: Deixa os outros com inveja (má sorte), pode dispara raio lazer"));
         pages.add(Component.text("§l§6Relíquia do Pescador\n§r§0Efeitos:\nRespiração aquativa e sorte\nHabilidade: Pode transformar mobs em peixes"));
         pages.add(Component.text("§l§6Relíquia da Escavação\n§r§0Efeitos:\nVisão noturna e pressa\nHabilidade: Pode localizar estruturas 1 Modo de escavação 2-9 Modo de exploração"));

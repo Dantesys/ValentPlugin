@@ -134,7 +134,7 @@ public class SpecialEvent implements Listener {
                     });
                     timer.scheduleTimer(1L);
                 }
-                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.totem)){
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.totem) || player.getInventory().getItemInOffHand().isSimilar(Reliquias.totem)){
                     final int finalRange = 10;
                     final Location location = player.getLocation();
                     final World world = player.getWorld();
@@ -317,14 +317,20 @@ public class SpecialEvent implements Listener {
                     }
                 }
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.besta)){
-                    Vector vec = player.getEyeLocation().getDirection();
-                    for(int i=0;i<=50;i++){
-                        Arrow flecha = player.launchProjectile(Arrow.class);
-                        flecha.setCritical(true);
-                        flecha.setGlowing(true);
-                        flecha.setColor(Color.YELLOW);
-                        flecha.setVelocity(vec.multiply(10));
-                    }
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 30,
+                            ()->{player.sendActionBar(Component.text("Modo Minigum Ativado!"));},
+                            ()->{},
+                            (t)->{
+                                player.sendActionBar(Component.text("Modo Minigun acaba em "+(t.getSegundosRestantes())+" segundos"));
+                                Vector vec = player.getEyeLocation().getDirection();
+                                Arrow flecha = player.launchProjectile(Arrow.class);
+                                flecha.setCritical(true);
+                                flecha.setGlowing(true);
+                                flecha.setColor(Color.YELLOW);
+                                flecha.setVelocity(vec.multiply(10));
+                            }
+                    );
+                    timer.scheduleTimer(5L);
                 }
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.miner)){
                     Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
@@ -348,7 +354,7 @@ public class SpecialEvent implements Listener {
                     );
                     timer.scheduleTimer(20L);
                 }
-                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.peitoral)){
+                if(player.getInventory().getChestplate() != null && player.getInventory().getChestplate().isSimilar(Reliquias.peitoral)){
                     Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 30,
                             ()->{
                                 player.sendActionBar(Component.text("Life Ativado!"));
@@ -362,7 +368,38 @@ public class SpecialEvent implements Listener {
                             (t)->player.sendActionBar(Component.text("Life acaba em "+(t.getSegundosRestantes())+" segundos")));
                     timer.scheduleTimer(20L);
                 }
-                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.escudo)){
+                if(player.getInventory().getLeggings() != null && player.getInventory().getLeggings().isSimilar(Reliquias.hulk)){
+                    final int finalRange = 30;
+                    final Location location = player.getLocation();
+                    final World world = player.getWorld();
+                    final double damage = 30;
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                            ()->{
+                            },()-> {
+                    },(t)->{
+                        double area = (double) finalRange /(t.getSegundosRestantes());
+                        for (double i = 0; i <= 2*Math.PI*area; i += 0.05) {
+                            double x = (area * Math.cos(i)) + location.getX();
+                            double z = (location.getZ() + area * Math.sin(i));
+                            Location particle = new Location(world, x, location.getY() + 1, z);
+                            world.spawnParticle(Particle.LARGE_SMOKE,particle,1);
+                        }
+                        Collection<Entity> pressf = location.getWorld().getNearbyEntities(location,area,2,area);
+                        while(pressf.iterator().hasNext()){
+                            Entity surdo = pressf.iterator().next();
+                            if(surdo instanceof LivingEntity vivo){
+                                if(vivo instanceof Player p){
+                                    if(p!=player)vivo.damage(damage);
+                                }else{
+                                    vivo.damage(damage);
+                                }
+                            }
+                            pressf.remove(surdo);
+                        }
+                    });
+                    timer.scheduleTimer(1L);
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.escudo) || player.getInventory().getItemInOffHand().isSimilar(Reliquias.escudo) ){
                     final int finalRange = 50;
                     final Location location = player.getLocation();
                     final Vector direction = location.getDirection().normalize();
@@ -398,6 +435,32 @@ public class SpecialEvent implements Listener {
                         }
                     });
                     timer.scheduleTimer(1L);
+                }
+                if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.fenix)){
+                    PlayerInventory pinv = player.getInventory();
+                    int tempoFly = 20;
+                    if(pinv.contains(Material.FEATHER)){
+                        int slot = pinv.first(Material.FEATHER);
+                        ItemStack pena = pinv.getItem(slot);
+                        if(pena != null){
+                            int qtd = pena.getAmount();
+                            pinv.remove(pena);
+                            tempoFly+=qtd;
+                        }
+                    }
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), tempoFly,
+                            ()->{
+                                player.sendActionBar(Component.text("Fly Ativado!"));
+                                player.setFlying(true);
+                                player.setAllowFlight(true);
+                            },
+                            ()->{
+                                player.setFlying(false);
+                                player.setAllowFlight(false);
+                            },
+                            (t)->player.sendActionBar(Component.text("Fly acaba em "+(t.getSegundosRestantes())+" segundos"))
+                    );
+                    timer.scheduleTimer(20L);
                 }
             }
             conteiner.set(ValentCity.getPlugin(ValentCity.class).getKey(),PersistentDataType.INTEGER,countdown);

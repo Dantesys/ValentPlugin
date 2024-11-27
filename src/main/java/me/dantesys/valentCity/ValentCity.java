@@ -64,6 +64,7 @@ public final class ValentCity extends JavaPlugin{
         config.addDefault("reliquia.peitoral", "");
         config.addDefault("reliquia.escudo", "");
         config.addDefault("reliquia.hulk", "");
+        config.addDefault("reliquia.fenix", "");
         config.options().copyDefaults(true);
         saveConfig();
         getServer().getConsoleSender().sendMessage("§2[Valent City]: Plugin Ativado!");

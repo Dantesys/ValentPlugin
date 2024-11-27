@@ -15,5 +15,6 @@ public enum ReliquiaType {
     BARBARO,
     PEITORAL,
     ESCUDO,
-    HULK
+    HULK,
+    FENIX
 }

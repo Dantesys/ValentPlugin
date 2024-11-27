@@ -8,11 +8,8 @@ import me.dantesys.valentCity.ReliquiaType;
 import me.dantesys.valentCity.ValentCity;
 import me.dantesys.valentCity.items.Reliquias;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-
-import java.util.Collection;
 
 public class GiveReliquia implements BasicCommand {
     @Override
@@ -22,7 +19,7 @@ public class GiveReliquia implements BasicCommand {
             Player player = stack.getSender().getServer().getPlayer(args[0]);
             String jg = PlainTextComponentSerializer.plainText().serialize(player.name());
             String reliquiaArg = args[1];
-            ReliquiaType reliquia = null;
+            ReliquiaType reliquia;
             try {
                 reliquia = new ReliquiaArgType().convert(reliquiaArg);
             } catch (CommandSyntaxException e) {
@@ -86,8 +83,12 @@ public class GiveReliquia implements BasicCommand {
                     config.set("reliquia.escudo", jg);
                     break;
                 case ReliquiaType.HULK:
-                    player.getInventory().addItem(Reliquias.escudo);
+                    player.getInventory().addItem(Reliquias.hulk);
                     config.set("reliquia.hulk", jg);
+                    break;
+                case ReliquiaType.FENIX:
+                    player.getInventory().addItem(Reliquias.fenix);
+                    config.set("reliquia.fenix", jg);
                     break;
             }
             ValentCity.getPlugin(ValentCity.class).saveConfig();

@@ -1,10 +1,17 @@
 package me.dantesys.valentCity.events;
 
 import com.destroystokyo.paper.event.server.ServerTickEndEvent;
+import me.dantesys.valentCity.Temporizador;
 import me.dantesys.valentCity.ValentCity;
 import me.dantesys.valentCity.items.Reliquias;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Particle;
+import org.bukkit.World;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +20,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.Collection;
 
 public class TickEvent implements Listener {
     @EventHandler
@@ -58,6 +67,10 @@ public class TickEvent implements Listener {
                 if(pinv.contains(Reliquias.barbaro))player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,60,0));
                 if(pinv.contains(Reliquias.peitoral))player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE,60,0));
                 if(pinv.contains(Reliquias.hulk))player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,1));
+                if(pinv.contains(Reliquias.fenix)){
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION,60,0));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE,60,0));
+                }
                 //NA MAO
                 ItemStack item = pinv.getItemInMainHand();
                 ItemStack item2 = pinv.getItemInOffHand();
@@ -70,7 +83,38 @@ public class TickEvent implements Listener {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK,60,0));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,0));
                 }
-                if(item.isSimilar(Reliquias.barbaro) || item2.isSimilar(Reliquias.barbaro)) player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,2));
+                if(item.isSimilar(Reliquias.barbaro) || item2.isSimilar(Reliquias.barbaro)) player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,1));
+                if(item.isSimilar(Reliquias.fenix) || item2.isSimilar(Reliquias.fenix)){
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION,60,0));
+                    final int finalRange = 3;
+                    final Location location = player.getLocation();
+                    final World world = player.getWorld();
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 1,
+                            ()->{
+                            },()-> {
+                    },(t)->{
+                        double area = (double) finalRange /(t.getSegundosRestantes());
+                        for (double i = 0; i <= 2*Math.PI*area; i += 0.05) {
+                            double x = (area * Math.cos(i)) + location.getX();
+                            double z = (location.getZ() + area * Math.sin(i));
+                            Location particle = new Location(world, x, location.getY() + 1, z);
+                            world.spawnParticle(Particle.LARGE_SMOKE,particle,1);
+                        }
+                        Collection<Entity> pressf = location.getWorld().getNearbyEntities(location,area,2,area);
+                        while(pressf.iterator().hasNext()){
+                            Entity surdo = pressf.iterator().next();
+                            if(surdo instanceof LivingEntity vivo){
+                                if(vivo instanceof Player p){
+                                    if(p!=player)vivo.setFireTicks(10);
+                                }else{
+                                    vivo.setFireTicks(10);
+                                }
+                            }
+                            pressf.remove(surdo);
+                        }
+                    });
+                    timer.scheduleTimer(1L);
+                }
             });
 
         }
