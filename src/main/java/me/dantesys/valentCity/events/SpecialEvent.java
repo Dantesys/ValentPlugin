@@ -32,8 +32,9 @@ public class SpecialEvent implements Listener {
         PersistentDataContainer conteiner = player.getPersistentDataContainer();
         if(conteiner.has(ValentCity.getPlugin(ValentCity.class).getKey(), PersistentDataType.INTEGER)){
             int tempo = conteiner.get(ValentCity.getPlugin(ValentCity.class).getKey(),PersistentDataType.INTEGER);
-            int countdown = 60;
+            int countdown = tempo;
             if(tempo<=0 && player.isSneaking()){
+                countdown = 60;
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.guerreiro)){
                     int range = 50;
                     double damage = 20;
@@ -317,7 +318,7 @@ public class SpecialEvent implements Listener {
                 }
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.besta)){
                     Vector vec = player.getEyeLocation().getDirection();
-                    for(int i=0;i<=100;i++){
+                    for(int i=0;i<=50;i++){
                         Arrow flecha = player.launchProjectile(Arrow.class);
                         flecha.setCritical(true);
                         flecha.setGlowing(true);
@@ -348,38 +349,18 @@ public class SpecialEvent implements Listener {
                     timer.scheduleTimer(20L);
                 }
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.peitoral)){
-                    final int finalRange = 10;
-                    final Location location = player.getLocation();
-                    final World world = player.getWorld();
-                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 10,
+                    Temporizador timer = new Temporizador(ValentCity.getPlugin(ValentCity.class), 30,
                             ()->{
-                            },()-> {
-                    },(t)->{
-                        double area = (double) finalRange /(t.getSegundosRestantes());
-                        for (double i = 0; i <= 2*Math.PI*area; i += 0.05) {
-                            double x = (area * Math.cos(i)) + location.getX();
-                            double z = (location.getZ() + area * Math.sin(i));
-                            Location particle = new Location(world, x, location.getY() + 1, z);
-                            world.spawnParticle(Particle.CRIT,particle,1);
-                        }
-                        Collection<Entity> pressf = location.getWorld().getNearbyEntities(location,area,2,area);
-                        while(pressf.iterator().hasNext()){
-                            Entity surdo = pressf.iterator().next();
-                            if(surdo instanceof LivingEntity vivo){
-                                if(vivo instanceof Player p){
-                                    if(p!=player) {
-                                        double armor = Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).getBaseValue();
-                                        Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).setBaseValue(armor - 1);
-                                    }
-                                }else{
-                                    double armor = Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).getBaseValue();
-                                    Objects.requireNonNull(vivo.getAttribute(Attribute.ARMOR)).setBaseValue(armor-1);
-                                }
-                            }
-                            pressf.remove(surdo);
-                        }
-                    });
-                    timer.scheduleTimer(1L);
+                                player.sendActionBar(Component.text("Life Ativado!"));
+                                Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).setBaseValue(100);
+                                player.setHealth(100);
+                            },
+                            ()-> {
+                                Objects.requireNonNull(player.getAttribute(Attribute.MAX_HEALTH)).setBaseValue(20);
+                                player.setHealth(20);
+                            },
+                            (t)->player.sendActionBar(Component.text("Life acaba em "+(t.getSegundosRestantes())+" segundos")));
+                    timer.scheduleTimer(20L);
                 }
                 if(player.getInventory().getItemInMainHand().isSimilar(Reliquias.escudo)){
                     final int finalRange = 50;

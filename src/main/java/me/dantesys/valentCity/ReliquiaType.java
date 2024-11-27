@@ -14,5 +14,6 @@ public enum ReliquiaType {
     MINER,
     BARBARO,
     PEITORAL,
-    ESCUDO
+    ESCUDO,
+    HULK
 }

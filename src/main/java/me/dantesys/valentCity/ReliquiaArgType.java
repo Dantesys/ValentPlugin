@@ -29,7 +29,7 @@ public class ReliquiaArgType implements CustomArgumentType<ReliquiaType,String> 
         }
     }
 
-    public ReliquiaType parse(StringReader stringReader) throws CommandSyntaxException {
+    public ReliquiaType parse(StringReader stringReader) {
         return null;
     }
     @Override

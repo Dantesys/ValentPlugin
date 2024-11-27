@@ -57,6 +57,7 @@ public class TickEvent implements Listener {
                 }
                 if(pinv.contains(Reliquias.barbaro))player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,60,0));
                 if(pinv.contains(Reliquias.peitoral))player.addPotionEffect(new PotionEffect(PotionEffectType.RESISTANCE,60,0));
+                if(pinv.contains(Reliquias.hulk))player.addPotionEffect(new PotionEffect(PotionEffectType.STRENGTH,60,1));
                 //NA MAO
                 ItemStack item = pinv.getItemInMainHand();
                 ItemStack item2 = pinv.getItemInOffHand();
