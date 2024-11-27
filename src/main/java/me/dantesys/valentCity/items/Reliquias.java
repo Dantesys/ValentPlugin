@@ -626,8 +626,6 @@ public class Reliquias {
         pages.add(Component.text("§l§6Relíquia do Pescador\n§r§0Efeitos:\nRespiração aquativa e sorte\nHabilidade: Pode transformar mobs em peixes"));
         pages.add(Component.text("§l§6Relíquia da Escavação\n§r§0Efeitos:\nVisão noturna e pressa\nHabilidade: Pode localizar estruturas 1 Modo de escavação 2-9 Modo de exploração"));
         pages.add(Component.text("§l§6Relíquia do Ladrão\n§r§0Efeitos:\nNa mão: Invisibilidade e Visão Noturna\nHabilidade: Pode roubar itens!"));
-        pages.add(Component.text("§l§6Relíquia da Fenix - Pena\n§r§0Efeitos:\nPermite voar, resistencia a fogo e visão noturna\nHabilidade: Queima todos os mobs proximos e pode curar feridas!"));
-        pages.add(Component.text("§l§6Relíquia da Fenix - Garra\n§r§0Efeitos:\nResistencia a fogo e visão noturna\nHabilidade: Pode soltar um corte que queima todos na sua frente!"));
         */
         Book bk = meta.pages(pages);
         if(bk.author().examinableName().equals(meta.getAuthor())){
