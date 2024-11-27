@@ -1,4 +1,23 @@
 <h1>Plugin Valent City</h1>
+<h2>Mudanças - v2.15.0</h2>
+Grandes mudanças no plugin, e modo de como as reliquias devem funcionar, agora elas terão que ter uma habilidade passiva, ativa e um special, em casos raros a reliquia pode ter um ultra special que requer item para usar
+Lista das reliquias que estão preparadas para teste:
+GUERREIRO,
+CEIFADOR,
+TOTEM,
+SPY,
+POSEIDON,
+VENTO,
+ARCO,
+FARMER,
+MARRETA,
+BESTA,
+MINER,
+BARBARO,
+PEITORAL,
+ESCUDO,
+HULK,
+FENIX
 <h2>Mudanças - v2.14.1</h2>
 Ajuste na reliquia da fenix, pisante, mineiro, pescador e fazendeiro após bug encontrado
 <h2>Mudanças - v2.14.0</h2>
