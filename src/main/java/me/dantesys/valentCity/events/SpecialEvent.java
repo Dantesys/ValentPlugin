@@ -246,7 +246,7 @@ public class SpecialEvent implements Listener {
                     arrow.setGlowing(true);
                     arrow.setColor(Color.YELLOW);
                     Vector vec = player.getLocation().getDirection();
-                    arrow.setVelocity(vec.multiply(10000));
+                    arrow.setVelocity(vec.multiply(100));
                     if(pinv.contains(Material.TNT)){
                         int slot = pinv.first(Material.TNT);
                         ItemStack tnt = pinv.getItem(slot);

@@ -47,7 +47,7 @@ public class GiveReliquia implements BasicCommand {
                     config.set("reliquia.poseidon", jg);
                     break;
                 case ReliquiaType.VENTO:
-                    player.getInventory().addItem(Reliquias.poseidon);
+                    player.getInventory().addItem(Reliquias.vento);
                     config.set("reliquia.vento", jg);
                     break;
                 case ReliquiaType.ARCO:
